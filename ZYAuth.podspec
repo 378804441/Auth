@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
     
   s.name             = 'ZYAuth'
-  s.version          = '0.2.0.0'
+  s.version          = '0.2.0.1'
   s.summary          = 'A short description of ZYAuth.'
   s.description      = <<-DESC
                        TODO: Add long description of the pod here.
@@ -14,12 +14,10 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/378804441/Auth.git', :tag => s.version.to_s }
   s.ios.deployment_target = '8.0'
   s.static_framework = true
+  s.source_files = 'ZYAuth/Classes/ZYAuthManager/Protocol/*.{h,m}'
+  s.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/*.{h,m}'
   
-  s.subspec 'Protocol' do |ss|
-      ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Protocol/*'
-  end
-  
-  
+
   s.subspec 'AuthSubManager' do |ss|
       
       ss.subspec 'WechatAuth' do |sss|
@@ -36,14 +34,7 @@ Pod::Spec.new do |s|
           sss.dependency 'Weibo_SDK'         # 微博
       end
   end
-  
-  
-  s.subspec 'AuthManager' do |ss|
-      
-    ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/*.{h,m}'
-    
-  end
-  
+
   
   
   
