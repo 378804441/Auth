@@ -1,0 +1,32 @@
+
+Pod::Spec.new do |s|
+    
+  s.name             = 'ZYAuth'
+  s.version          = '0.1.0'
+  s.summary          = 'A short description of ZYAuth.'
+  s.description      = <<-DESC
+                       TODO: Add long description of the pod here.
+                       DESC
+
+  s.homepage         = 'https://github.com/378804441/Auth'
+  s.license          = { :type => 'MIT', :file => 'LICENSE' }
+  s.author           = { 'DW' => '378804441@qq.com' }
+  s.source           = { :git => 'https://github.com/378804441/Auth.git', :tag => s.version.to_s }
+  s.ios.deployment_target = '8.0'
+  s.static_framework = true
+  
+  s.source_files = 'ZYAuth/Classes/**/*'
+  s.dependency 'WechatOpenSDK'     # 微信
+  s.dependency 'Weibo_SDK'         # 微博
+  
+  #############  最右-国内  ############
+  s.subspec 'Auth' do |ss|
+       ss.source_files = 'ZYAuth/Classes/**/*'
+       ss.dependency 'WechatOpenSDK'     # 微信
+       ss.dependency 'Weibo_SDK'         # 微博
+  end
+  
+  
+  
+  
+end
