@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
     
   s.name             = 'ZYAuth'
-  s.version          = '0.2.0.6'
+  s.version          = '0.2.0.7'
   s.summary          = 'A short description of ZYAuth.'
   s.description      = <<-DESC
                        TODO: Add long description of the pod here.
@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
   
   s.subspec 'AuthCore' do |ss|
        ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Protocol/*.{h,m}'
+       ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/*.{h,m}'
   end
   
   s.subspec 'AuthSubManager' do |ss|
