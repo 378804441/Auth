@@ -8,6 +8,8 @@
 
 #import "ZYViewController.h"
 
+//#define IMPORT_WECHAT
+
 @interface ZYViewController ()
 
 @end
@@ -17,7 +19,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    
+#ifdef IMPORT_WECHAT
+    NSLog(@"~~~~~~~  指定了微信");
+#endif
+    
 }
 
 - (void)didReceiveMemoryWarning

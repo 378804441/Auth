@@ -7,11 +7,12 @@
 //
 
 #import "ZYAuthManager.h"
-#import <WechatOpenSDK/WXApi.h>
+
+//#import <WechatOpenSDK/WXApi.h>
 #import <Weibo_SDK/WeiboSDK.h>
 
 
-@interface ZYAuthManager()<WXApiDelegate,WeiboSDKDelegate>
+@interface ZYAuthManager()<WeiboSDKDelegate>
 
 @property (nonatomic, strong) ZYAuthSuccessBlock successBlock;
 @property (nonatomic, strong) ZYAuthFailureBlock failureBlock;
@@ -26,10 +27,11 @@
 // 进行各个平台注册
 +(void)initialize{
     // 微信注册授权
-    [WXApi registerApp:WECHAT_APPID];
+//    [WXApi registerApp:WECHAT_APPID];
     
     // 微博注册
     [WeiboSDK registerApp:SINA_APPKEY];
+    
 }
 
 +(ZYAuthManager *)shareInstance {
@@ -86,29 +88,29 @@
 #pragma mark - ********************** 微信相关方法 **************************
 
 -(void)_wxLoginWithViewControl:(UIViewController *)viewcontrol{
-    NSString *random = [NSString stringWithFormat:@"%@", @(arc4random())];
-    SendAuthReq* req = [[SendAuthReq alloc] init];
-    req.scope = @"snsapi_userinfo"; // @"snsapi_message,snsapi_friend,snsapi_contact,post_timeline,sns"
-    req.state = random;
-    
-    // 有控制器传入 优先走 不依赖客户端注册方法
-    if (viewcontrol) {
-        BOOL ret = [WXApi sendAuthReq:req viewController:viewcontrol delegate:[ZYAuthManager shareInstance]];
-        if (!ret) {
-            self.failureBlock(NO, @"登录失败", nil, nil, nil, nil);
-        }
-        return;
-    }
-    
-    // 依赖微信客户端注册方法
-    [WXApi sendReq:req];
+//    NSString *random = [NSString stringWithFormat:@"%@", @(arc4random())];
+//    SendAuthReq* req = [[SendAuthReq alloc] init];
+//    req.scope = @"snsapi_userinfo"; // @"snsapi_message,snsapi_friend,snsapi_contact,post_timeline,sns"
+//    req.state = random;
+//
+//    // 有控制器传入 优先走 不依赖客户端注册方法
+//    if (viewcontrol) {
+//        BOOL ret = [WXApi sendAuthReq:req viewController:viewcontrol delegate:[ZYAuthManager shareInstance]];
+//        if (!ret) {
+//            self.failureBlock(NO, @"登录失败", nil, nil, nil, nil);
+//        }
+//        return;
+//    }
+//
+//    // 依赖微信客户端注册方法
+//    [WXApi sendReq:req];
 }
 
 /**************** 微信 delegate *************/
 /** 发送一个sendReq后，收到微信的回应 */
--(void)onResp:(BaseResp *)resp{
-    
-}
+//-(void)onResp:(BaseResp *)resp{
+//
+//}
 
 
 
