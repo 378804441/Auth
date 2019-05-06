@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WXApi.h"
-#import "WeiboSDK.h"
+#import <WechatOpenSDK/WXApi.h>
+#import <Weibo_SDK/WeiboSDK.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
