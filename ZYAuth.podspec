@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/378804441/Auth.git', :tag => s.version.to_s }
   s.ios.deployment_target = '8.0'
   s.static_framework = true
-  s.source_files = 'ZYAuth/Classes/ZYAuthManager/Protocol/*'
+  s.source_files = 'ZYAuth/Classes/ZYAuthManager/Protocol/*.{h,m}'
   s.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/*.{h,m}'
 
   
