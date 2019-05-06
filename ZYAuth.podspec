@@ -19,22 +19,27 @@ Pod::Spec.new do |s|
       ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Protocol/*'
   end
   
-  s.subspec 'Auth' do |ss|
-   
-    ss.subspec 'WechatAuth' do |sss|
-        sss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/WechatAuth/*.{h,m}'
-        sss.dependency 'WechatOpenSDK'     # 微信
-    end
-    
-    ss.subspec 'TencenAuth' do |sss|
-        sss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/TencenAuth/*.{h,m}'
-    end
-    
-    ss.subspec 'SinaAuth' do |sss|
-        sss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/SinaAuth/*.{h,m}'
-        sss.dependency 'Weibo_SDK'         # 微博
-    end
-    
+  
+  s.subspec 'AuthSubManager' do |ss|
+      
+      ss.subspec 'WechatAuth' do |sss|
+          sss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/WechatAuth/*.{h,m}'
+          sss.dependency 'WechatOpenSDK'     # 微信
+      end
+      
+      ss.subspec 'TencenAuth' do |sss|
+          sss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/TencenAuth/*.{h,m}'
+      end
+      
+      ss.subspec 'SinaAuth' do |sss|
+          sss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/SinaAuth/*.{h,m}'
+          sss.dependency 'Weibo_SDK'         # 微博
+      end
+  end
+  
+  
+  s.subspec 'AuthManager' do |ss|
+      
     ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/*.{h,m}'
     
   end
