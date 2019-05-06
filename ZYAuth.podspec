@@ -15,12 +15,17 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '8.0'
   s.static_framework = true
   
-  #############  最右-国内  ############
-  s.subspec 'Auth' do |ss|
-       ss.source_files = 'ZYAuth/Classes/**/*'
-       ss.dependency 'Weibo_SDK'         # 微博
+  s.subspec 'Protocol' do |ss|
+      ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Protocol/*'
   end
   
+  s.subspec 'Auth' do |ss|
+      ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Manager/*'
+  end
+  
+  
+  ss.dependency 'WechatOpenSDK'     # 微信
+  ss.dependency 'Weibo_SDK'         # 微博
   
   
   
