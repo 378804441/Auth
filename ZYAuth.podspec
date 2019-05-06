@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
     
   s.name             = 'ZYAuth'
-  s.version          = '0.2.0.9'
+  s.version          = '0.2.1.0'
   s.summary          = 'A short description of ZYAuth.'
   s.description      = <<-DESC
                        TODO: Add long description of the pod here.
@@ -14,10 +14,8 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/378804441/Auth.git', :tag => s.version.to_s }
   s.ios.deployment_target = '8.0'
   s.static_framework = true
+  s.source_files = 'ZYAuth/Classes/ZYAuthManager/Protocol/*.{h,m}'
   
-  s.subspec 'AuthCore' do |ss|
-      ss.source_files = 'ZYAuth/Classes/ZYAuthManager/**'
-  end
   
   s.subspec 'AuthSubManager' do |ss|
       
