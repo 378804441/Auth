@@ -7,8 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <WechatOpenSDK/WXApi.h>
-#import <Weibo_SDK/WeiboSDK.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,7 +36,7 @@ typedef void (^ZYAuthSuccessBlock )(BOOL isSuccess, NSString * __nullable errorM
 typedef void (^ZYAuthFailureBlock) (BOOL isSuccess, NSString * __nullable errorMsg, NSString * __nullable openid, NSString * __nullable accessToken, NSString * __nullable appID, NSDictionary * __nullable dicProfile);
 
 
-@interface ZYAuthManager : NSObject <WXApiDelegate,WeiboSDKDelegate>
+@interface ZYAuthManager : NSObject 
 
 
 /** 单例初始化 */

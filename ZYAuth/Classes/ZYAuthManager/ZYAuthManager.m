@@ -7,9 +7,11 @@
 //
 
 #import "ZYAuthManager.h"
+#import <WechatOpenSDK/WXApi.h>
+#import <Weibo_SDK/WeiboSDK.h>
 
 
-@interface ZYAuthManager()
+@interface ZYAuthManager()<WXApiDelegate,WeiboSDKDelegate>
 
 @property (nonatomic, strong) ZYAuthSuccessBlock successBlock;
 @property (nonatomic, strong) ZYAuthFailureBlock failureBlock;
