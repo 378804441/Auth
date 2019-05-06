@@ -18,15 +18,15 @@ typedef NS_ENUM(NSInteger, ZYAuthManagerType){
 };
 
 /************************ all key *************************/
-static NSString *const QQ_APPID         = @"";
-static NSString *const QQ_APPKEY        = @"";
+static NSString *const QQ_APPID         = @"1103537147";
+static NSString *const QQ_APPKEY        = @"o4vzBP6z5Ip4FUbK";
 
-static NSString *const WECHAT_APPID     = @"";
-static NSString *const WECHAT_APPSECRET = @"";
+static NSString *const WECHAT_APPID     = @"wx16516ad81c31d872";
+static NSString *const WECHAT_APPSECRET = @"55aaba0bfa074a4384c708dd47861c15";
 
-static NSString *const SINA_APPKEY      = @"";
-static NSString *const SINA_APPSECRET   = @"";
-static NSString *const SINA_REDIRECTURI = @"";
+static NSString *const SINA_APPKEY      = @"4117400114";
+static NSString *const SINA_APPSECRET   = @"39a009263ca6171e492a4024ccdf31be";
+static NSString *const SINA_REDIRECTURI = @"http://sns.whalecloud.com/sina2/callback";
 static NSString *const SINA_OBJECTID    = @""; // 用于多媒体分享时必填参数，为你的应用bundle id
 /**********************************************************/
 

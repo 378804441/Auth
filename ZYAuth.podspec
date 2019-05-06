@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
     
   s.name             = 'ZYAuth'
-  s.version          = '0.1.6'
+  s.version          = '0.1.7'
   s.summary          = 'A short description of ZYAuth.'
   s.description      = <<-DESC
                        TODO: Add long description of the pod here.
@@ -21,16 +21,25 @@ Pod::Spec.new do |s|
   
   s.subspec 'Auth' do |ss|
    
-      
-      ss.subspec 'WechatAuth' do |sss|
-          sss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/WechatAuth/*.{h,m}'
-      end
+    ss.subspec 'WechatAuth' do |sss|
+        sss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/WechatAuth/*.{h,m}'
+        sss.dependency 'WechatOpenSDK'     # 微信
+    end
     
-     
-     ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/*.{h,m}'
+    ss.subspec 'TencenAuth' do |sss|
+        sss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/TencenAuth/*.{h,m}'
+    end
+    
+    ss.subspec 'SinaAuth' do |sss|
+        sss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/SinaAuth/*.{h,m}'
+        sss.dependency 'Weibo_SDK'         # 微博
+    end
+    
+    ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/*.{h,m}'
+    
   end
   
-  s.dependency 'WechatOpenSDK'     # 微信
-  s.dependency 'Weibo_SDK'         # 微博
+  
+  
   
 end

@@ -7,12 +7,9 @@
 //
 
 #import "ZYAuthManager.h"
+#import "ZYAuthProtocol.h"
 
-//#import <WechatOpenSDK/WXApi.h>
-#import <Weibo_SDK/WeiboSDK.h>
-
-
-@interface ZYAuthManager()<WeiboSDKDelegate>
+@interface ZYAuthManager()
 
 @property (nonatomic, strong) ZYAuthSuccessBlock successBlock;
 @property (nonatomic, strong) ZYAuthFailureBlock failureBlock;
@@ -30,17 +27,15 @@
     Class wxClass = NSClassFromString(@"WXApi");
     Class sinaWbClass = NSClassFromString(@"WeiboSDK");
     
-    
     if (wxClass) {
-        NSLog(@"~~~~~~~  创建成功");
+        id <ZYAuthProtocol>wechatObj = [[NSClassFromString(@"WechatAuthManager") alloc] init];
+        [wechatObj registerAuthWithAppId:WECHAT_APPID appsecret:@""];
     }
     
-    
-    // 微信注册授权
-//    [WXApi registerApp:WECHAT_APPID];
-    
-    // 微博注册
-//    [WeiboSDK registerApp:SINA_APPKEY];
+    if (sinaWbClass) {
+        id <ZYAuthProtocol>sinaObj = [[NSClassFromString(@"SinaAuthManager") alloc] init];;
+        [sinaObj registerAuthWithAppId:SINA_APPKEY appsecret:@""];
+    }
     
 }
 
@@ -68,13 +63,11 @@
     self.failureBlock = failure;
     switch (type) {
         case ZYAuthManager_wx:
-            [self _wxLoginWithViewControl:viewController];
             break;
         case ZYAuthManager_qq:
             
             break;
         case ZYAuthManager_wb:
-            [self _sinaWbLogin];
             break;
     }
 }
@@ -95,56 +88,5 @@
 }
 
 
-#pragma mark - ********************** 微信相关方法 **************************
-
--(void)_wxLoginWithViewControl:(UIViewController *)viewcontrol{
-//    NSString *random = [NSString stringWithFormat:@"%@", @(arc4random())];
-//    SendAuthReq* req = [[SendAuthReq alloc] init];
-//    req.scope = @"snsapi_userinfo"; // @"snsapi_message,snsapi_friend,snsapi_contact,post_timeline,sns"
-//    req.state = random;
-//
-//    // 有控制器传入 优先走 不依赖客户端注册方法
-//    if (viewcontrol) {
-//        BOOL ret = [WXApi sendAuthReq:req viewController:viewcontrol delegate:[ZYAuthManager shareInstance]];
-//        if (!ret) {
-//            self.failureBlock(NO, @"登录失败", nil, nil, nil, nil);
-//        }
-//        return;
-//    }
-//
-//    // 依赖微信客户端注册方法
-//    [WXApi sendReq:req];
-}
-
-/**************** 微信 delegate *************/
-/** 发送一个sendReq后，收到微信的回应 */
-//-(void)onResp:(BaseResp *)resp{
-//
-//}
-
-
-
-#pragma mark - ********************** 微博相关方法 **************************
-
--(void)_sinaWbLogin{
-    WBAuthorizeRequest *request = [WBAuthorizeRequest request];
-    request.redirectURI = SINA_REDIRECTURI;
-    request.scope = @"follow_app_official_microblog";
-    
-    BOOL ret = [WeiboSDK sendRequest:request];
-    if (!ret) {
-        self.failureBlock(NO, @"登录失败", nil, nil, nil, nil);
-    }
-}
-
-
-
-- (void)didReceiveWeiboRequest:(WBBaseRequest *)request {
-    
-}
-
-- (void)didReceiveWeiboResponse:(WBBaseResponse *)response {
-    
-}
 
 @end
