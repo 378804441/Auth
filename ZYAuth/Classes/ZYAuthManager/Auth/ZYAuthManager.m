@@ -24,13 +24,23 @@
 
 #pragma mark - init
 
-// 进行各个平台注册
+/** 尝试创建各个平台对象, 排查是否引入进来 */
 +(void)initialize{
+    
+    Class wxClass = NSClassFromString(@"WXApi");
+    Class sinaWbClass = NSClassFromString(@"WeiboSDK");
+    
+    
+    if (wxClass) {
+        NSLog(@"~~~~~~~  创建成功");
+    }
+    
+    
     // 微信注册授权
 //    [WXApi registerApp:WECHAT_APPID];
     
     // 微博注册
-    [WeiboSDK registerApp:SINA_APPKEY];
+//    [WeiboSDK registerApp:SINA_APPKEY];
     
 }
 

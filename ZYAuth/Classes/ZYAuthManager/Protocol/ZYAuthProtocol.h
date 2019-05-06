@@ -9,8 +9,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZYAuthProtocol : NSObject
+
+@protocol ZYAuthProtocol <NSObject>
+@optional
+
+/** 进行注册 */
+- (void)registerAuthWithAppId:(NSString *)appid appsecret:(NSString *)appsecret;
 
 @end
+
 
 NS_ASSUME_NONNULL_END

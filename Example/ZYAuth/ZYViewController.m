@@ -7,6 +7,7 @@
 //
 
 #import "ZYViewController.h"
+#import "ZYAuthManager.h"
 
 //#define IMPORT_WECHAT
 
@@ -20,9 +21,9 @@
 {
     [super viewDidLoad];
     
-#ifdef IMPORT_WECHAT
-    NSLog(@"~~~~~~~  指定了微信");
-#endif
+
+    [ZYAuthManager shareInstance];
+    
     
 }
 
