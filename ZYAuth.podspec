@@ -23,10 +23,7 @@ Pod::Spec.new do |s|
       ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Manager/*'
   end
   
-  
-  ss.dependency 'WechatOpenSDK'     # 微信
-  ss.dependency 'Weibo_SDK'         # 微博
-  
-  
+  s.dependency 'WechatOpenSDK'     # 微信
+  s.dependency 'Weibo_SDK'         # 微博
   
 end
