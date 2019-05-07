@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
     
   s.name             = 'ZYAuth'
-  s.version          = '0.2.1.5'
+  s.version          = '0.2.1.6'
   s.summary          = 'A short description of ZYAuth.'
   s.description      = <<-DESC
                        TODO: Add long description of the pod here.
@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
   
   ####### 腾讯 ######
   s.subspec 'TencenAuth' do |ss|
-      ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/TencenAuth/*'
+      ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/TencenAuth/**/*'
   end
   
   ####### 微博 #######
