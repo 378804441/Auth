@@ -15,6 +15,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '8.0'
   s.static_framework = true
   
+  ####### 核心模块 ######
   s.subspec 'AuthCore' do |ss|
       ss.source_files = ['ZYAuth/Classes/ZYAuthManager/Protocol/*.{h,m}',
                          'ZYAuth/Classes/ZYAuthManager/Auth/*.{h,m}']
@@ -26,6 +27,7 @@ Pod::Spec.new do |s|
       ss.dependency 'WechatOpenSDK'
   end
   
+  ####### 腾讯 ######
   s.subspec 'TencenAuth' do |ss|
       ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/TencenAuth/*.{h,m}'
   end
@@ -36,5 +38,4 @@ Pod::Spec.new do |s|
       ss.dependency 'Weibo_SDK'
   end
  
-  
 end
