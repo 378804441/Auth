@@ -18,22 +18,39 @@
 
 @implementation SinaAuthManager
 
--(void)registerAuthWithAppId:(NSString *)appid appsecret:(NSString *)appsecret{
-    self.redirectURI = appsecret;
-    [WeiboSDK registerApp:appid];
+
+#pragma mark - manager Protocol
+
+-(void)registerAuthWithAppId:(NSString *)appId appKey:(NSString *)appKey appSecret:(NSString *)appSecret redirectURI:(NSString *)redirectURI{
+    self.redirectURI = redirectURI;
+    [WeiboSDK registerApp:appKey];
+}
+
+/** 登录 */
+- (void)loginWithType:(ZYAuthManagerType)type viewController:(UIViewController *)viewController success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
+    [self _sinaWbLoginWithSuccess:success failure:failure];
+}
+
+-(void)loginWithType:(ZYAuthManagerType)type success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
+    [self _sinaWbLoginWithSuccess:success failure:failure];
 }
 
 
--(void)_sinaWbLogin{
+#pragma mark - private method
+
+-(void)_sinaWbLoginWithSuccess:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
     WBAuthorizeRequest *request = [WBAuthorizeRequest request];
     request.redirectURI = self.redirectURI;
     request.scope = @"follow_app_official_microblog";
     
     BOOL ret = [WeiboSDK sendRequest:request];
     if (!ret) {
-//        self.failureBlock(NO, @"登录失败", nil, nil, nil, nil);
+        failure(NO, @"登录失败", nil, nil, nil, nil);
     }
 }
+
+
+#pragma mark - 微博 delegate
 
 - (void)didReceiveWeiboRequest:(WBBaseRequest *)request {
     

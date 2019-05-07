@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Wechat</key>
+	<dict>
+		<key>ID</key>
+		<integer>0</integer>
+		<key>RedirectUrl</key>
+		<string></string>
+		<key>AppKey</key>
+		<string>wx16516ad81c31d872</string>
+		<key>AppSecret</key>
+		<string>55aaba0bfa074a4384c708dd47861c15</string>
+	</dict>
+	<key>QQ</key>
+	<dict>
+		<key>ID</key>
+		<integer>1</integer>
+		<key>RedirectUrl</key>
+		<string></string>
+		<key>AppKey</key>
+		<string>1103537147</string>
+		<key>AppSecret</key>
+		<string></string>
+	</dict>
+	<key>SinaWeibo</key>
+	<dict>
+		<key>ID</key>
+		<integer>2</integer>
+		<key>RedirectUrl</key>
+		<string>http://sns.whalecloud.com/sina2/callback</string>
+		<key>AppKey</key>
+		<string>4117400114</string>
+		<key>AppSecret</key>
+		<string>39a009263ca6171e492a4024ccdf31be</string>
+	</dict>
+</dict>
+</plist>

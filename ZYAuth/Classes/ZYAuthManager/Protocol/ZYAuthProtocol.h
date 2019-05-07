@@ -9,14 +9,56 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// 空值判断相关
+#define IsEmpty(str)            (str == nil || ![str respondsToSelector:@selector(isEqualToString:)] || [str isEqualToString:@""])
+#define IsNull(obj)             (obj == nil || [obj isEqual:[NSNull null]])
+#define IsArray(obj)            (obj && [obj isKindOfClass:[NSArray class]] && [obj count] > 0)
+#define IsDictionary(obj)       (obj && [obj isKindOfClass:[NSDictionary class]] && [obj.allKeys count] > 0)
+
+
+
+typedef NS_ENUM(NSInteger, ZYAuthManagerType){
+    ZYAuthManager_wx = 0,       // 微信
+    ZYAuthManager_qq,           // QQ
+    ZYAuthManager_wb,           // 微博
+};
 
 @protocol ZYAuthProtocol <NSObject>
 @optional
 
-/** 进行注册 */
-- (void)registerAuthWithAppId:(NSString *)appid appsecret:(NSString *)appsecret;
+/** 回调block **/
+typedef void (^ZYAuthSuccessBlock )(BOOL isSuccess, NSString * __nullable errorMsg);
+typedef void (^ZYAuthFailureBlock) (BOOL isSuccess, NSString * __nullable errorMsg, NSString * __nullable openid, NSString * __nullable accessToken, NSString * __nullable appID, NSDictionary * __nullable dicProfile);
+
+
+/**
+ 进行注册
+ appId       : 对应平台 app id
+ appKey      : 对应平台 app key
+ appSecret   : 对应平台 secret
+ redirectURI : 重定向URL
+ */
+- (void)registerAuthWithAppId:(NSString * __nullable)appId appKey:(NSString * __nullable)appKey  appSecret:(NSString * __nullable)appSecret redirectURI:(NSString * __nullable)redirectURI;
+
+
+/**
+ 登录
+ type    : 登录类型
+ success : 成功block
+ failure : 失败block
+ */
+- (void)loginWithType:(ZYAuthManagerType)type success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
+
+
+/**
+ 登录 - 需要有模态窗口的
+ type           : 登录类型
+ viewController : 需要模态的依附ViewController
+ success        : 成功block
+ failure        : 失败block
+ */
+- (void)loginWithType:(ZYAuthManagerType)type viewController:(UIViewController *)viewController success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
 
 @end
-
 
 NS_ASSUME_NONNULL_END

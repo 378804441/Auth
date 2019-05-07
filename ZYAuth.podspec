@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
     
   s.name             = 'ZYAuth'
-  s.version          = '0.2.2.0'
+  s.version          = '0.2.2.1'
   s.summary          = 'A short description of ZYAuth.'
   s.description      = <<-DESC
                        TODO: Add long description of the pod here.
@@ -18,7 +18,9 @@ Pod::Spec.new do |s|
   ####### 核心模块 ######
   s.subspec 'AuthCore' do |ss|
       ss.source_files = ['ZYAuth/Classes/ZYAuthManager/Protocol/*.{h,m}',
-                         'ZYAuth/Classes/ZYAuthManager/Auth/*.{h,m}']
+                         'ZYAuth/Classes/ZYAuthManager/Auth/*.{h,m}',
+                         'ZYAuth/Classes/ZYAuthManager/ThreadSafety/*.{h,m}']
+      ss.resource = 'ZYAuth/Classes/ZYAuthManager/Config/ZYSDKConfig.bundle'
   end
   
   ####### 微信 ######

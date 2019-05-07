@@ -9,7 +9,6 @@
 #import "ZYViewController.h"
 #import "ZYAuthManager.h"
 
-//#define IMPORT_WECHAT
 
 @interface ZYViewController ()
 
@@ -17,20 +16,38 @@
 
 @implementation ZYViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
     
-
-    [ZYAuthManager shareInstance];
+    UIButton *wxBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, 300, 80, 30)];
+    wxBtn.backgroundColor = [UIColor yellowColor];
+    wxBtn.tag = 0;
+    [wxBtn setTitle:@"微信登录" forState:UIControlStateNormal];
+    [wxBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [wxBtn addTarget:self action:@selector(authLogin:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:wxBtn];
     
     
+    
+    UIButton *wbBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(wxBtn.frame)+50, 300, 80, 30)];
+    wbBtn.backgroundColor = [UIColor yellowColor];
+    wbBtn.tag = 2;
+    [wbBtn setTitle:@"微博登录" forState:UIControlStateNormal];
+    [wbBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [wbBtn addTarget:self action:@selector(authLogin:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:wbBtn];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+
+-(void)authLogin:(UIButton *)btn{
+    
+    [[ZYAuthManager shareInstance] authLoginWithType:btn.tag viewController:self success:^(BOOL isSuccess, NSString * _Nullable errorMsg) {
+        
+    } failure:^(BOOL isSuccess, NSString * _Nullable errorMsg, NSString * _Nullable openid, NSString * _Nullable accessToken, NSString * _Nullable appID, NSDictionary * _Nullable dicProfile) {
+        NSLog(@"~~~~~~  %@", errorMsg);
+    }];
+    
 }
 
 @end

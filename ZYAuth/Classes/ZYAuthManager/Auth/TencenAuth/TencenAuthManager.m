@@ -15,7 +15,7 @@
 
 @implementation TencenAuthManager
 
--(void)registerAuthWithAppId:(NSString *)appid appsecret:(NSString *)appsecret{
+-(void)registerAuthWithAppId:(NSString *)appId appKey:(NSString *)appKey appSecret:(NSString *)appSecret redirectURI:(NSString *)redirectURI{
     
 }
 
