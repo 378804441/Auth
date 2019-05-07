@@ -19,7 +19,7 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     
-    UIButton *wxBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, 300, 80, 30)];
+    UIButton *wxBtn = [[UIButton alloc] initWithFrame:CGRectMake(30, 300, 80, 30)];
     wxBtn.backgroundColor = [UIColor yellowColor];
     wxBtn.tag = 0;
     [wxBtn setTitle:@"微信登录" forState:UIControlStateNormal];
@@ -36,6 +36,14 @@
     [wbBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [wbBtn addTarget:self action:@selector(authLogin:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:wbBtn];
+    
+    UIButton *qqBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(wbBtn.frame)+50, 300, 80, 30)];
+    qqBtn.backgroundColor = [UIColor yellowColor];
+    qqBtn.tag = 1;
+    [qqBtn setTitle:@"QQ登录" forState:UIControlStateNormal];
+    [qqBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [qqBtn addTarget:self action:@selector(authLogin:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:qqBtn];
 }
 
 

@@ -9,12 +9,12 @@
 #import "ZYAuthManager.h"
 #import "ZYThreadSafeDictionary.h"
 
-static NSString *const APP_ID           = @"ID";
+static NSString *const APP_ID           = @"AppID";
 static NSString *const APP_KEY          = @"AppKey";
 static NSString *const APP_SECRET       = @"AppSecret";
 static NSString *const APP_REDIRECT_URL = @"RedirectUrl";
 
-static NSString *const QQ_KEY       = @"QQ";
+static NSString *const TENCENT_KEY  = @"QQ";
 static NSString *const WECHAT_KEY   = @"Wechat";
 static NSString *const SINA_KEY     = @"SinaWeibo";
 
@@ -43,8 +43,9 @@ static NSString *const SINA_KEY     = @"SinaWeibo";
 - (instancetype)init{
     self = [super init];
     if (self) {
-        Class wxClass     = NSClassFromString(@"WXApi");
-        Class sinaWbClass = NSClassFromString(@"WeiboSDK");
+        Class wxClass      = NSClassFromString(@"WXApi");
+        Class sinaWbClass  = NSClassFromString(@"WeiboSDK");
+        Class tencentClass = NSClassFromString(@"TencentOAuth");
         
         // 读取 key 配置文件
         NSString *dicPath  = [[NSBundle mainBundle] pathForResource:@"ZYSDKConfig.bundle/Keys" ofType:@"plist"];
@@ -70,6 +71,17 @@ static NSString *const SINA_KEY     = @"SinaWeibo";
                 id <ZYAuthProtocol>sinaObj = [[NSClassFromString(@"SinaAuthManager") alloc] init];;
                 [sinaObj registerAuthWithAppId:nil appKey:sinaKey appSecret:sinaSecret redirectURI:sinaRedirectURI];
                 [self.objcDic setObject:sinaObj forKey:[self mappingKeyWithType:ZYAuthManager_wb]];
+            }
+        }
+        
+        // 腾讯旗下 (QQ, TIM)
+        if (tencentClass) {
+            NSString *tencentID  = [[keys objectForKey:TENCENT_KEY] objectForKey:APP_ID];
+            NSString *tencentKey = [[keys objectForKey:TENCENT_KEY] objectForKey:APP_KEY];
+            if (!IsEmpty(tencentID)) {
+                id <ZYAuthProtocol>sinaObj = [[NSClassFromString(@"TencenAuthManager") alloc] init];;
+                [sinaObj registerAuthWithAppId:tencentID appKey:tencentKey appSecret:nil redirectURI:nil];
+                [self.objcDic setObject:sinaObj forKey:[self mappingKeyWithType:ZYAuthManager_qq]];
             }
         }
         

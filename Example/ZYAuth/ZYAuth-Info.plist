@@ -40,9 +40,55 @@
 				<string>zuiyou</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>QQ41C6A3FB</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tencent1103537147</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>zuiyou7a7569796f75</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>mqqOpensdkSSoLogin</string>
+		<string>mqzone</string>
+		<string>sinaweibohd</string>
+		<string>sinaweibo</string>
+		<string>weibosdk</string>
+		<string>weibosdk2.5</string>
+		<string>alipayauth</string>
+		<string>alipay</string>
+		<string>safepay</string>
+		<string>mqq</string>
+		<string>mqqapi</string>
+		<string>mqqopensdkapiV3</string>
+		<string>mqqopensdkapiV2</string>
+		<string>mqqapiwallet</string>
+		<string>mqqwpa</string>
+		<string>mqqbrowser</string>
+		<string>wtloginmqq2</string>
+		<string>weixin</string>
+		<string>wechat</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -65,29 +111,6 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>mqqOpensdkSSoLogin</string>
-		<string>mqzone</string>
-		<string>sinaweibohd</string>
-		<string>sinaweibo</string>
-		<string>weibosdk</string>
-		<string>weibosdk2.5</string>
-		<string>alipayauth</string>
-		<string>alipay</string>
-		<string>safepay</string>
-		<string>mqq</string>
-		<string>mqqapi</string>
-		<string>mqqopensdkapiV3</string>
-		<string>mqqopensdkapiV2</string>
-		<string>mqqapiwallet</string>
-		<string>mqqwpa</string>
-		<string>mqqbrowser</string>
-		<string>wtloginmqq2</string>
-		<string>weixin</string>
-		<string>wechat</string>
 	</array>
 </dict>
 </plist>
