@@ -56,9 +56,16 @@
 -(void)_facebookLoginWithViewController:(UIViewController *)viewController success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
     FBSDKLoginManager *loginManager = [[FBSDKLoginManager alloc] init];
     [loginManager logInWithPermissions:@[@"public_profile"] fromViewController:(id)viewController handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+        
         if (error) {
             if(failure) failure(error.localizedDescription, error);
         }else{
+            
+            if (result.isCancelled) {
+                if (failure) failure(@"取消登录", nil);
+                return ;
+            }
+            
             NSMutableDictionary *successDic = [NSMutableDictionary dictionary];
             
             NSString *appid = IsEmpty(result.token.appID) ? @"" : result.token.appID;

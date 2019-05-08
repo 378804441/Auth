@@ -138,18 +138,101 @@
 
 
 #pragma mark - 获取用户信息
+
 - (void)getUserInfoResponse:(APIResponse *)response {
     if (0 == response.retCode) {
-        NSMutableDictionary *responseDic = [NSMutableDictionary dictionary];
-        [responseDic setValue:self.oauth.openId forKey:@"openId"];
+        __block NSMutableDictionary *responseDic = [NSMutableDictionary dictionary];
         [responseDic setValue:self.oauth.accessToken forKey:@"accessToken"];
         [responseDic setValue:self.oauth.appId forKey:@"appId"];
         [responseDic setValue:response.jsonResponse forKey:@"userInfo"];
-        if(self.successBlock) self.successBlock([responseDic copy]);
+        
+        WS(weakSelf);
+        [self getQQUnionIDFromAccessToken:self.oauth.accessToken result:^(NSDictionary *dic) {
+            SS(strongSelf);
+            if (dic) {
+                [responseDic addEntriesFromDictionary:dic];
+            }else{
+                [responseDic setValue:strongSelf.oauth.openId forKey:@"openid"];
+            }
+            if(strongSelf.successBlock) strongSelf.successBlock([responseDic copy]);
+        }];
+        
     }else {
         if (self.failureBlock) self.failureBlock(response.errorMsg, nil);
     }
 }
+
+
+/** 获取unionid 等信息 */
+- (void)getQQUnionIDFromAccessToken:(NSString *)strAccessToken
+                             result:(void(^)(NSDictionary *dic))result {
+    
+    NSString * strUrl = [NSString stringWithFormat:@"https://graph.qq.com/oauth2.0/me?access_token=%@&unionid=1", strAccessToken];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:strUrl]];
+    [request setHTTPMethod:@"GET"];
+    
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+    
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request
+                                            completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                                                
+                                                NSString * strData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                                                if (strData.length < 20) {
+                                                    if (result) {
+                                                        result(nil);
+                                                    }
+                                                    return;
+                                                }
+                                                
+                                                NSRange startRange = [strData rangeOfString:@"{"];
+                                                if (startRange.location == NSNotFound) {
+                                                    if (result) {
+                                                        result(nil);
+                                                    }
+                                                    return;
+                                                }
+                                                
+                                                NSRange endRange = [strData rangeOfString:@"}"];
+                                                if (endRange.location == NSNotFound) {
+                                                    if (result) {
+                                                        result(nil);
+                                                    }
+                                                    return;
+                                                }
+                                                
+                                                NSRange allRange = NSMakeRange(startRange.location, endRange.location - startRange.location + 1);
+                                                
+                                                if (strData.length < allRange.location + allRange.length) {
+                                                    if (result) {
+                                                        result(nil);
+                                                    }
+                                                    return;
+                                                }
+                                                
+                                                NSString * strJson = [strData substringWithRange:allRange];
+                                                if (strJson) {
+                                                    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:[strJson dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+                                                    
+                                                    if (dic) {
+                                                        if (result) {
+                                                            result(dic);
+                                                        }
+                                                        return;
+                                                    }
+                                                }
+                                                
+                                                if (result) {
+                                                    result(nil);
+                                                }
+                                            }];
+    
+    [task resume];
+}
+
+
+
+
 
 
 @end

@@ -28,25 +28,13 @@
 @implementation WechatAuthManager
 
 
-+(void)load{
-    //执行一次
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        __block id observer =
-        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidFinishLaunchingNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-            
-//            [[NSNotificationCenter defaultCenter] removeObserver:observer];
-        }];
-    });
-}
-
 #pragma mark - manager Protocol
 
 /** 向微信注册 */
 -(void)registerAuthWithAppId:(NSString *)appId appKey:(NSString *)appKey appSecret:(NSString *)appSecret redirectURI:(NSString *)redirectURI{
     self.appID     = appId;
     self.appSecret = appSecret;
-    [WXApi registerApp:appKey];
+    [WXApi registerApp:appId];
 }
 
 -(BOOL)openURLWithApplication:(UIApplication *)application handleOpenURL:(NSURL *)url{
@@ -89,7 +77,7 @@
     self.random = random;
     
     SendAuthReq *req = [[SendAuthReq alloc] init];
-    req.scope   = @"snsapi_userinfo"; // @"snsapi_message,snsapi_friend,snsapi_contact,post_timeline,sns"
+    req.scope   = @"snsapi_userinfo";
     req.state   = random;
     BOOL ret;
     
@@ -141,7 +129,7 @@
                         strongSelf.successBlock(disResponse);
                     }
                 }
-                
+            
             }];
             [task resume];
         } else if (temp.errCode == WXErrCodeUserCancel) {

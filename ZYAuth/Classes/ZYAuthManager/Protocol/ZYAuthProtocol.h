@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 #define IsArray(obj)            (obj && [obj isKindOfClass:[NSArray class]] && [obj count] > 0)
 #define IsDictionary(obj)       (obj && [obj isKindOfClass:[NSDictionary class]] && [obj.allKeys count] > 0)
 
+#define WS(weakSelf)    __weak __typeof(&*self)weakSelf = self
+#define SS(strongSelf)  __strong __typeof__(weakSelf) strongSelf = weakSelf
 
 typedef NS_ENUM(NSInteger, ZYAuthManagerType){
     ZYAuthManagerWeChat = 0,       // 微信

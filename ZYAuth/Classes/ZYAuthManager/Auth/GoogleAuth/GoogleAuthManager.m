@@ -17,6 +17,10 @@
 
 @property (nonatomic, strong) NSString *redirectURI;
 
+@property (nonatomic, copy)   ZYAuthSuccessBlock successBlock;
+
+@property (nonatomic, copy)   ZYAuthFailureBlock failureBlock;
+
 @end
 
 @implementation GoogleAuthManager
@@ -58,6 +62,8 @@
 #pragma mark - private method
 
 -(void)_googleLoginWithViewController:(UIViewController *)viewController success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
+    self.successBlock = success;
+    self.failureBlock = failure;
     [GIDSignIn sharedInstance].uiDelegate = (id)self.rootViewController;
     [[GIDSignIn sharedInstance] signIn];
 }
@@ -68,17 +74,30 @@
 - (void)signIn:(GIDSignIn *)signIn
 didSignInForUser:(GIDGoogleUser *)user
      withError:(NSError *)error {
-    // Perform any operations on signed in user here.
-    NSString *userId = user.userID;                  // For client-side use only!
-    NSString *idToken = user.authentication.idToken; // Safe to send to the server
-    NSString *fullName = user.profile.name;
-    NSString *givenName = user.profile.givenName;
-    NSString *familyName = user.profile.familyName;
-    NSString *email = user.profile.email;
-    // [START_EXCLUDE]
-    // [END_EXCLUDE]
+    
+    if (IsNull(error)) {
+        NSString *userId     = IsEmpty(user.userID) ? @"" : user.userID;
+        NSString *idToken    = IsEmpty(user.authentication.idToken) ? @"" : user.authentication.idToken;
+        NSString *fullName   = IsEmpty(user.profile.name) ? @"" : user.profile.name;
+        NSString *givenName  = IsEmpty(user.profile.givenName) ? @"" : user.profile.givenName;
+        NSString *familyName = IsEmpty(user.profile.familyName) ? @"" : user.profile.familyName;
+        NSString *email      = IsEmpty(user.profile.email) ? @"" : user.profile.email;
+        
+        NSMutableDictionary *dataDic = [NSMutableDictionary dictionary];
+        [dataDic setObject:userId forKey:@"userId"];
+        [dataDic setObject:idToken forKey:@"idToken"];
+        [dataDic setObject:fullName forKey:@"fullName"];
+        [dataDic setObject:givenName forKey:@"givenName"];
+        [dataDic setObject:familyName forKey:@"familyName"];
+        [dataDic setObject:email forKey:@"email"];
+        
+        if(self.successBlock) self.successBlock([dataDic copy]);
+    }else{
+        if (self.failureBlock) self.failureBlock(error.localizedDescription, error);
+    }
+    
 }
-// [END signin_handler]
+
 
 // This callback is triggered after the disconnect call that revokes data
 // access to the user's resources has completed.

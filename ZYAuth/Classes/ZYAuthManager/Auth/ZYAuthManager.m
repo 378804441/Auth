@@ -61,11 +61,11 @@ static NSString *const TWITTER_KEY  = @"Twitter";
         
         // 微信
         if (wxClass) {
-            NSString *wechatKey    = [[keys objectForKey:WECHAT_KEY] objectForKey:APP_KEY];
+            NSString *wechatId    = [[keys objectForKey:WECHAT_KEY] objectForKey:APP_ID];
             NSString *wechatSecret = [[keys objectForKey:WECHAT_KEY] objectForKey:APP_SECRET];
-            if (!IsEmpty(wechatKey) && !IsEmpty(wechatSecret)) {
+            if (!IsEmpty(wechatId) && !IsEmpty(wechatSecret)) {
                 id <ZYAuthProtocol>wechatObj = [[NSClassFromString(@"WechatAuthManager") alloc] init];
-                [wechatObj registerAuthWithAppId:nil appKey:wechatKey appSecret:wechatSecret redirectURI:nil];
+                [wechatObj registerAuthWithAppId:wechatId appKey:nil appSecret:wechatSecret redirectURI:nil];
                 [self.objcDic setObject:wechatObj forKey:[self mappingKeyWithType:ZYAuthManagerWeChat]];
             }
         }

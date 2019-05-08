@@ -94,9 +94,9 @@
     }
     
     [[ZYAuthManager shareInstance] authLoginWithType:btn.tag viewController:self success:^(NSDictionary * _Nullable dataDic) {
-        
+        NSLog(@"!!!!!!!!!  %@", dataDic);
     } failure:^(NSString * _Nullable errorMsg, NSError * _Nullable error) {
-        
+        NSLog(@"~~~~~~~~~  %@", errorMsg);
     }];
     
 }

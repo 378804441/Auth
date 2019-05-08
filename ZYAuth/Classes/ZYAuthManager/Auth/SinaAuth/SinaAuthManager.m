@@ -14,6 +14,10 @@
 
 @property (nonatomic, strong) NSString *redirectURI;
 
+@property (nonatomic, copy)   ZYAuthSuccessBlock successBlock;
+
+@property (nonatomic, copy)   ZYAuthFailureBlock failureBlock;
+
 @end
 
 @implementation SinaAuthManager
@@ -28,12 +32,18 @@
 
 /** openURL */
 -(BOOL)openURLWithApplication:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
-    return YES;
+    if ([WeiboSDK handleOpenURL:url delegate:self]) {
+        return YES;
+    }
+    return NO;
 }
 
 /** handleOpenURL */
 - (BOOL)openURLWithApplication:(UIApplication *)application handleOpenURL:(NSURL *)url{
-    return YES;
+    if ([WeiboSDK handleOpenURL:url delegate:self]) {
+        return YES;
+    }
+    return NO;
 }
 
 
@@ -50,6 +60,10 @@
 #pragma mark - private method
 
 -(void)_sinaWbLoginWithSuccess:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
+    
+    self.successBlock = success;
+    self.failureBlock = failure;
+    
     WBAuthorizeRequest *request = [WBAuthorizeRequest request];
     request.redirectURI = self.redirectURI;
     request.scope = @"follow_app_official_microblog";
@@ -68,6 +82,22 @@
 }
 
 - (void)didReceiveWeiboResponse:(WBBaseResponse *)response {
+    
+    /** 授权登录 */
+    if ([response isKindOfClass:WBAuthorizeResponse.class]) {
+        
+        // 授权成功
+        if (response.statusCode == WeiboSDKResponseStatusCodeSuccess) {
+            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+            if (!IsNull(response.userInfo)) {
+                [dic setObject:response.userInfo forKey:@"userInfo"];
+            }
+            if(self.successBlock) self.successBlock([dic copy]);
+        }else{
+            if (self.failureBlock) self.failureBlock(@"授权失败", nil);
+        }
+        
+    }
     
 }
 
