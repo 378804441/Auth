@@ -15,6 +15,10 @@
 
 @property (nonatomic, strong) TencentOAuth *oauth;
 
+@property (nonatomic, copy)   ZYAuthSuccessBlock successBlock;
+
+@property (nonatomic, copy)   ZYAuthFailureBlock failureBlock;
+
 @end
 
 @implementation TencenAuthManager
@@ -26,6 +30,26 @@
 -(void)registerAuthWithAppId:(NSString *)appId appKey:(NSString *)appKey appSecret:(NSString *)appSecret redirectURI:(NSString *)redirectURI{
     self.oauth = [[TencentOAuth alloc] initWithAppId:appId andDelegate:self];
     [self.oauth setAuthShareType:[self getAuthShareType]];
+}
+
+/** openURL */
+-(BOOL)openURLWithApplication:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    if ([QQApiInterface handleOpenURL:url delegate:self]) {
+        return YES;
+    }else if ([TencentOAuth HandleOpenURL:url]) {
+        return YES;
+    }
+    return NO;
+}
+
+/** handleOpenURL */
+- (BOOL)openURLWithApplication:(UIApplication *)application handleOpenURL:(NSURL *)url{
+    if ([QQApiInterface handleOpenURL:url delegate:self]) {
+        return YES;
+    }else if ([TencentOAuth HandleOpenURL:url]) {
+        return YES;
+    }
+    return NO;
 }
 
 /** 登录 */
@@ -42,9 +66,11 @@
 
 /** 进行登录呼起 */
 -(void)_qqLoginWithViewController:(UIViewController *)viewController success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
+    self.successBlock = success;
+    self.failureBlock = failure;
     BOOL ret = [self.oauth authorize:@[kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, kOPEN_PERMISSION_GET_INFO]];
-    if (!ret) {
-        failure(NO, @"登录失败", nil, nil, nil, nil);
+    if (!ret && failure) {
+        failure(@"登录失败", nil);
     }
 }
 
@@ -74,28 +100,56 @@
     return ShareDestTypeTIM;
 }
 
-- (void)isOnlineResponse:(NSDictionary *)response {
-    
-}
 
-- (void)onReq:(QQBaseReq *)req {
-    
-}
-
-- (void)onResp:(QQBaseResp *)resp {
-    
-}
+#pragma mark - tencent delegate
 
 - (void)tencentDidLogin {
-    
+    if (self.oauth.accessToken.length > 0) {
+        // 调用获取用户信息
+        BOOL ret = [self.oauth getUserInfo];
+        if (!ret) {  //未获取到用户身份信息，重新登录
+            if (self.failureBlock) self.failureBlock(@"登录失败", nil);
+        }
+    }else{
+        if (self.failureBlock) self.failureBlock(@"登录失败", nil);
+    }
 }
 
 - (void)tencentDidNotLogin:(BOOL)cancelled {
-    
+    if (cancelled) {
+        if (self.failureBlock) self.failureBlock(@"取消登录", nil);
+    }else{
+        if (self.failureBlock) self.failureBlock(@"登录失败", nil);
+    }
 }
 
 - (void)tencentDidNotNetWork {
-    
+    if (self.failureBlock) self.failureBlock(@"无网络连接", nil);
 }
+
+- (void)onResp:(QQBaseResp *)resp {
+}
+
+- (void)onReq:(QQBaseReq *)req {
+}
+
+- (void)isOnlineResponse:(NSDictionary *)response {
+}
+
+
+#pragma mark - 获取用户信息
+- (void)getUserInfoResponse:(APIResponse *)response {
+    if (0 == response.retCode) {
+        NSMutableDictionary *responseDic = [NSMutableDictionary dictionary];
+        [responseDic setValue:self.oauth.openId forKey:@"openId"];
+        [responseDic setValue:self.oauth.accessToken forKey:@"accessToken"];
+        [responseDic setValue:self.oauth.appId forKey:@"appId"];
+        [responseDic setValue:response.jsonResponse forKey:@"userInfo"];
+        if(self.successBlock) self.successBlock([responseDic copy]);
+    }else {
+        if (self.failureBlock) self.failureBlock(response.errorMsg, nil);
+    }
+}
+
 
 @end

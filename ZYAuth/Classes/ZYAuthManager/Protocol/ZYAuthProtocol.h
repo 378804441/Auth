@@ -29,8 +29,8 @@ typedef NS_ENUM(NSInteger, ZYAuthManagerType){
 @optional
 
 /** 回调block **/
-typedef void (^ZYAuthSuccessBlock )(BOOL isSuccess, NSString * __nullable errorMsg);
-typedef void (^ZYAuthFailureBlock) (BOOL isSuccess, NSString * __nullable errorMsg, NSString * __nullable openid, NSString * __nullable accessToken, NSString * __nullable appID, NSDictionary * __nullable dicProfile);
+typedef void (^ZYAuthSuccessBlock )(NSDictionary * __nullable dataDic);
+typedef void (^ZYAuthFailureBlock) (NSString * __nullable errorMsg, NSError *__nullable error);
 
 
 /**
@@ -42,16 +42,12 @@ typedef void (^ZYAuthFailureBlock) (BOOL isSuccess, NSString * __nullable errorM
  */
 - (void)registerAuthWithAppId:(NSString * __nullable)appId appKey:(NSString * __nullable)appKey  appSecret:(NSString * __nullable)appSecret redirectURI:(NSString * __nullable)redirectURI;
 
-/**
- Facebook SDK跟别的有区别, 所以需要单独注册
- */
--(void)registerFacebookWithApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
+/** openURL */
+-(BOOL)openURLWithApplication:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
 
-/** openURL facebook */
--(BOOL)openURLFacebookWithApplication:(UIApplication *)application
-                              openURL:(NSURL *)url
-                    sourceApplication:(NSString *)sourceApplication
-                           annotation:(id)annotation;
+/** handleOpenURL */
+- (BOOL)openURLWithApplication:(UIApplication *)application handleOpenURL:(NSURL *)url;
+
 
 /**
  登录

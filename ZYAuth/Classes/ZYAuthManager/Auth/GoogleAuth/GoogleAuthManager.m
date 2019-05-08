@@ -25,9 +25,20 @@
 #pragma mark - manager Protocol
 
 -(void)registerAuthWithAppId:(NSString *)appId appKey:(NSString *)appKey appSecret:(NSString *)appSecret redirectURI:(NSString *)redirectURI{
-    [GIDSignIn sharedInstance].clientID = appId;
+    [GIDSignIn sharedInstance].clientID = @"831022142104-asi0nen7aunc2rb4mla5bioh9g15i55k.apps.googleusercontent.com";
     [GIDSignIn sharedInstance].delegate = self;
 }
+
+/** openURL */
+-(BOOL)openURLWithApplication:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    return YES;
+}
+
+/** handleOpenURL */
+- (BOOL)openURLWithApplication:(UIApplication *)application handleOpenURL:(NSURL *)url{
+    return YES;
+}
+
 
 /** 登录 */
 - (void)loginWithType:(ZYAuthManagerType)type viewController:(UIViewController *)viewController success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
@@ -65,13 +76,6 @@ didSignInForUser:(GIDGoogleUser *)user
     NSString *familyName = user.profile.familyName;
     NSString *email = user.profile.email;
     // [START_EXCLUDE]
-    NSDictionary *statusText = @{@"statusText":
-                                     [NSString stringWithFormat:@"Signed in user: %@",
-                                      fullName]};
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:@"ToggleAuthUINotification"
-     object:nil
-     userInfo:statusText];
     // [END_EXCLUDE]
 }
 // [END signin_handler]

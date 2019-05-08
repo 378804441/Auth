@@ -8,13 +8,15 @@
 
 #import "ZYAppDelegate.h"
 #import "ZYAuthManager.h"
+#import <WechatOpenSDK/WXApi.h>
+
+@interface ZYAppDelegate()<WXApiDelegate>
+
+@end
 
 @implementation ZYAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-   
-    // 注册facebook
-    [[ZYAuthManager shareInstance] registerFacebookWithApplication:application didFinishLaunchingWithOptions:launchOptions];
     
     return YES;
 }
@@ -24,11 +26,27 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-    
-    BOOL facebook = [[ZYAuthManager shareInstance] openURLFacebookWithApplication:application openURL:url sourceApplication:sourceApplication annotation:annotation];
-    
-    return facebook;
+    return [[ZYAuthManager shareInstance] openURLWithApplication:application openURL:url sourceApplication:sourceApplication annotation:annotation];
 }
+
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return  [[ZYAuthManager shareInstance] openURLWithApplication:application handleOpenURL:url];
+}
+
+
+/** 发送一个sendReq后，收到微信的回应 */
+-(void)onResp:(BaseResp *)resp{
+    
+}
+
+-(void)onReq:(BaseReq *)req{
+    
+}
+
+
+
+
 
 
 - (void)applicationWillResignActive:(UIApplication *)application

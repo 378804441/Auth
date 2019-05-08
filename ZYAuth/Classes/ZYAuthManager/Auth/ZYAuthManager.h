@@ -19,14 +19,15 @@ NS_ASSUME_NONNULL_BEGIN
 /** 单例初始化 */
 +(ZYAuthManager *)shareInstance;
 
-/** 注册Facebook */
--(void)registerFacebookWithApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
+/** openURL */
+-(BOOL)openURLWithApplication:(UIApplication *)application
+                      openURL:(NSURL *)url
+            sourceApplication:(NSString *)sourceApplication
+                   annotation:(id)annotation;
 
-/** openURL facebook */
--(BOOL)openURLFacebookWithApplication:(UIApplication *)application
-                              openURL:(NSURL *)url
-                    sourceApplication:(NSString *)sourceApplication
-                           annotation:(id)annotation;
+/** handleOpenURL */
+- (BOOL)openURLWithApplication:(UIApplication *)application handleOpenURL:(NSURL *)url;
+
 
 /**
  进行登录

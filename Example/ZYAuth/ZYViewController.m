@@ -27,7 +27,7 @@
     [wxBtn addTarget:self action:@selector(authLogin:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:wxBtn];
     
-    UIButton *qqBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(wxBtn.frame)+30, CGRectGetMinY(wxBtn.frame), 100, 30)];
+    UIButton *qqBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(wxBtn.frame)+20, CGRectGetMinY(wxBtn.frame), 100, 30)];
     qqBtn.backgroundColor = [UIColor yellowColor];
     qqBtn.tag = 1;
     [qqBtn setTitle:@"QQ登录" forState:UIControlStateNormal];
@@ -35,7 +35,7 @@
     [qqBtn addTarget:self action:@selector(authLogin:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:qqBtn];
     
-    UIButton *wbBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(qqBtn.frame)+30, CGRectGetMinY(wxBtn.frame), 100, 30)];
+    UIButton *wbBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(qqBtn.frame)+20, CGRectGetMinY(wxBtn.frame), 100, 30)];
     wbBtn.backgroundColor = [UIColor yellowColor];
     wbBtn.tag = 2;
     [wbBtn setTitle:@"微博登录" forState:UIControlStateNormal];
@@ -54,7 +54,7 @@
     [self.view addSubview:googleBtn];
     
     
-    UIButton *googleOutBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(googleBtn.frame)+30, CGRectGetMaxY(wxBtn.frame)+20, wxBtn.frame.size.width, wxBtn.frame.size.height)];
+    UIButton *googleOutBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(googleBtn.frame)+20, CGRectGetMaxY(wxBtn.frame)+20, wxBtn.frame.size.width, wxBtn.frame.size.height)];
     googleOutBtn.backgroundColor = [UIColor yellowColor];
     googleOutBtn.tag = 103;
     [googleOutBtn setTitle:@"Google登出" forState:UIControlStateNormal];
@@ -74,7 +74,7 @@
     
     
     /****************************** t ***********************************/
-    UIButton *twitterBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(wxBtn.frame), CGRectGetMaxY(googleBtn.frame)+20, wxBtn.frame.size.width, wxBtn.frame.size.height)];
+    UIButton *twitterBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(wxBtn.frame), CGRectGetMaxY(facebookBtn.frame)+20, wxBtn.frame.size.width, wxBtn.frame.size.height)];
     twitterBtn.backgroundColor = [UIColor yellowColor];
     twitterBtn.tag = 5;
     [twitterBtn setTitle:@"Twitter登录" forState:UIControlStateNormal];
@@ -93,10 +93,10 @@
         return;
     }
     
-    [[ZYAuthManager shareInstance] authLoginWithType:btn.tag viewController:self success:^(BOOL isSuccess, NSString * _Nullable errorMsg) {
+    [[ZYAuthManager shareInstance] authLoginWithType:btn.tag viewController:self success:^(NSDictionary * _Nullable dataDic) {
         
-    } failure:^(BOOL isSuccess, NSString * _Nullable errorMsg, NSString * _Nullable openid, NSString * _Nullable accessToken, NSString * _Nullable appID, NSDictionary * _Nullable dicProfile) {
-        NSLog(@"~~~~~~  %@", errorMsg);
+    } failure:^(NSString * _Nullable errorMsg, NSError * _Nullable error) {
+        
     }];
     
 }

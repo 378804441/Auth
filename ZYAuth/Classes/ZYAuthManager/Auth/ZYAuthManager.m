@@ -8,6 +8,7 @@
 
 #import "ZYAuthManager.h"
 #import "ZYThreadSafeDictionary.h"
+#import <objc/runtime.h>
 
 static NSString *const APP_ID           = @"AppID";
 static NSString *const APP_KEY          = @"AppKey";
@@ -32,6 +33,7 @@ static NSString *const TWITTER_KEY  = @"Twitter";
 
 #pragma mark - init
 
+
 +(ZYAuthManager *)shareInstance {
     static ZYAuthManager *instance = nil;
     static dispatch_once_t obj;
@@ -45,12 +47,13 @@ static NSString *const TWITTER_KEY  = @"Twitter";
 - (instancetype)init{
     self = [super init];
     if (self) {
+        self.objcDic             = [ZYThreadSafeDictionary dictionary];
         Class wxClass            = NSClassFromString(@"WXApi");
         Class sinaWbClass        = NSClassFromString(@"WeiboSDK");
         Class tencentClass       = NSClassFromString(@"TencentOAuth");
         Class googleSigninClass  = NSClassFromString(@"GIDSignIn");
+        Class facebookClass      = NSClassFromString(@"FBSDKApplicationDelegate");
         Class twitterSigninClass = NSClassFromString(@"GIDSignIn");
-        
         
         // 读取 key 配置文件
         NSString *dicPath  = [[NSBundle mainBundle] pathForResource:@"ZYSDKConfig.bundle/Keys" ofType:@"plist"];
@@ -100,46 +103,52 @@ static NSString *const TWITTER_KEY  = @"Twitter";
             }
         }
         
-        
         // Twitter
         if (twitterSigninClass) {
             NSString *twitterKey    = [[keys objectForKey:TWITTER_KEY] objectForKey:APP_KEY];
             NSString *twitterSecret = [[keys objectForKey:TWITTER_KEY] objectForKey:APP_SECRET];
             if (!IsEmpty(twitterKey) && !IsEmpty(twitterSecret)) {
-                id <ZYAuthProtocol>googleObj = [[NSClassFromString(@"GoogleAuthManager") alloc] init];;
-                [googleObj registerAuthWithAppId:nil appKey:twitterKey appSecret:twitterSecret redirectURI:nil];
-                [self.objcDic setObject:googleObj forKey:[self mappingKeyWithType:ZYAuthManagerGoogle]];
+                id <ZYAuthProtocol>twitterObj = [[NSClassFromString(@"TwitterAuthManager") alloc] init];;
+                [twitterObj registerAuthWithAppId:nil appKey:twitterKey appSecret:twitterSecret redirectURI:nil];
+                [self.objcDic setObject:twitterObj forKey:[self mappingKeyWithType:ZYAuthManagerTwitter]];
             }
+        }
+        
+        // Facebook
+        if (facebookClass) {
+            id <ZYAuthProtocol>facebookObj = [[NSClassFromString(@"FacebookAuthManager") alloc] init];
+            [facebookObj registerAuthWithAppId:nil appKey:nil appSecret:nil redirectURI:nil];
+            [self.objcDic setObject:facebookObj forKey:[self mappingKeyWithType:ZYAuthManagerFacebook]];
         }
         
     }
     return self;
 }
 
-/** facebook 注册 */
--(void)registerFacebookWithApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-    Class facebookClass = NSClassFromString(@"FBSDKApplicationDelegate");
-    
-    // Facebook
-    if (facebookClass) {
-        id <ZYAuthProtocol>facebookObj = [[NSClassFromString(@"FacebookAuthManager") alloc] init];
-        [facebookObj registerFacebookWithApplication:application didFinishLaunchingWithOptions:launchOptions];
-        [self.objcDic setObject:facebookObj forKey:[self mappingKeyWithType:ZYAuthManagerFacebook]];
-    }
-    
-}
 
--(BOOL)openURLFacebookWithApplication:(UIApplication *)application
-                              openURL:(NSURL *)url
-                    sourceApplication:(NSString *)sourceApplication
-                           annotation:(id)annotation{
-    if (!IsNull([self.objcDic objectForKey:[self mappingKeyWithType:ZYAuthManagerFacebook]])) {
-        id <ZYAuthProtocol>facebookObj = [[NSClassFromString(@"FacebookAuthManager") alloc] init];
-        return [facebookObj openURLFacebookWithApplication:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+/** openURL */
+-(BOOL)openURLWithApplication:(UIApplication *)application
+                      openURL:(NSURL *)url
+            sourceApplication:(NSString *)sourceApplication
+                   annotation:(id)annotation{
+    BOOL openB = NO;
+    for (NSString *objcKey in self.objcDic.allKeys) {
+        id <ZYAuthProtocol>sdkManagerObjc = [self.objcDic objectForKey:objcKey];
+        
+        openB = [sdkManagerObjc openURLWithApplication:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     }
-    return NO;
+    return openB;
 }
-
+    
+/** handleOpenURL */
+- (BOOL)openURLWithApplication:(UIApplication *)application handleOpenURL:(NSURL *)url{
+    BOOL openB = NO;
+    for (NSString *objcKey in self.objcDic.allKeys) {
+        id <ZYAuthProtocol>sdkManagerObjc = [self.objcDic objectForKey:objcKey];
+        openB = [sdkManagerObjc openURLWithApplication:application handleOpenURL:url];
+    }
+    return openB;
+}
 
 
 #pragma mark - public method
@@ -163,11 +172,6 @@ static NSString *const TWITTER_KEY  = @"Twitter";
     [sdkManagerObjc loginWithType:type viewController:viewController success:success failure:failure];
 }
 
--(void)logOutGoogle{
-    // 初始化完成的SDK Manager对象
-    id <ZYAuthProtocol>sdkManagerObjc = [self.objcDic objectForKey:[self mappingKeyWithType:ZYAuthManagerGoogle]];
-    [sdkManagerObjc logOut];
-}
 
 #pragma mark - private method
 
@@ -188,13 +192,12 @@ static NSString *const TWITTER_KEY  = @"Twitter";
 }
 
 
-#pragma mark - 懒加载
+#pragma mark - test
 
--(ZYThreadSafeDictionary *)objcDic{
-    if (!_objcDic) {
-        _objcDic = [ZYThreadSafeDictionary dictionary];
-    }
-    return _objcDic;
+-(void)logOutGoogle{
+    // 初始化完成的SDK Manager对象
+    id <ZYAuthProtocol>sdkManagerObjc = [self.objcDic objectForKey:[self mappingKeyWithType:ZYAuthManagerGoogle]];
+    [sdkManagerObjc logOut];
 }
 
 

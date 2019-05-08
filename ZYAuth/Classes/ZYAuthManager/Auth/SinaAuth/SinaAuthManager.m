@@ -26,6 +26,17 @@
     [WeiboSDK registerApp:appKey];
 }
 
+/** openURL */
+-(BOOL)openURLWithApplication:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    return YES;
+}
+
+/** handleOpenURL */
+- (BOOL)openURLWithApplication:(UIApplication *)application handleOpenURL:(NSURL *)url{
+    return YES;
+}
+
+
 /** 登录 */
 - (void)loginWithType:(ZYAuthManagerType)type viewController:(UIViewController *)viewController success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
     [self _sinaWbLoginWithSuccess:success failure:failure];
@@ -44,8 +55,8 @@
     request.scope = @"follow_app_official_microblog";
     
     BOOL ret = [WeiboSDK sendRequest:request];
-    if (!ret) {
-        failure(NO, @"登录失败", nil, nil, nil, nil);
+    if (!ret && failure) {
+        failure(@"登录失败", nil);
     }
 }
 
