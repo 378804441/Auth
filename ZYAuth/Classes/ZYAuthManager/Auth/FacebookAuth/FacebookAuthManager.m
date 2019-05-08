@@ -60,12 +60,24 @@
             if(failure) failure(error.localizedDescription, error);
         }else{
             NSMutableDictionary *successDic = [NSMutableDictionary dictionary];
-            [successDic setObject:result.token.appID forKey:@"appID"];
-            [successDic setObject:result.token.userID forKey:@"userID"];
-            [successDic setObject:result.token.tokenString forKey:@"tokenString"];
-            [successDic setObject:result.token.refreshDate forKey:@"refreshDate"];
-            [successDic setObject:result.token.expirationDate forKey:@"expirationDate"];
-            [successDic setObject:result.token.dataAccessExpirationDate forKey:@"dataAccessExpirationDate"];
+            
+            NSString *appid = IsEmpty(result.token.appID) ? @"" : result.token.appID;
+            NSString *userid = IsEmpty(result.token.userID) ? @"" : result.token.userID;
+            NSString *token = IsEmpty(result.token.tokenString) ? @"" : result.token.tokenString;
+    
+            [successDic setObject:appid forKey:@"appID"];
+            [successDic setObject:userid forKey:@"userID"];
+            [successDic setObject:token forKey:@"tokenString"];
+            
+            if (!IsNull(result.token.refreshDate)) {
+                [successDic setObject:result.token.refreshDate forKey:@"refreshDate"];
+            }
+            if (!IsNull(result.token.expirationDate)) {
+                [successDic setObject:result.token.expirationDate forKey:@"expirationDate"];
+            }
+            if (!IsNull(result.token.dataAccessExpirationDate)) {
+                [successDic setObject:result.token.dataAccessExpirationDate forKey:@"dataAccessExpirationDate"];
+            }
             if(success) success([successDic copy]);
         }
     }];
