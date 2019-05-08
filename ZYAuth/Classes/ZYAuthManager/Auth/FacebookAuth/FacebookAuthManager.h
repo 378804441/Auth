@@ -7,11 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ZYAuthProtocol.h"
+#import  <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FacebookAuthManager : NSObject
+@interface FacebookAuthManager : NSObject<ZYAuthProtocol>
+
+@property (nonatomic, strong) UIViewController *rootViewController;
 
 @end
 

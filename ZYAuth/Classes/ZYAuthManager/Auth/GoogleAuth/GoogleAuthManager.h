@@ -7,11 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ZYAuthProtocol.h"
+@import GoogleSignIn;
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GoogleAuthManager : NSObject
+@interface GoogleAuthManager : NSObject<ZYAuthProtocol, GIDSignInDelegate, GIDSignInUIDelegate>
+
+@property (nonatomic, strong) UIViewController *rootViewController;
+
+@property (nonatomic, strong) NSString *redirectURI;
+
+@property (nonatomic, copy)   ZYAuthSuccessBlock successBlock;
+
+@property (nonatomic, copy)   ZYAuthFailureBlock failureBlock;
 
 @end
 

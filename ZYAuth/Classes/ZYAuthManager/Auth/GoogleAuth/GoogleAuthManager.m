@@ -7,19 +7,10 @@
 //
 
 #import "GoogleAuthManager.h"
-#import "ZYAuthProtocol.h"
-@import GoogleSignIn;
+#import "GoogleAuthManager+Login.h"
 
 
-@interface GoogleAuthManager()<ZYAuthProtocol, GIDSignInDelegate, GIDSignInUIDelegate>
-
-@property (nonatomic, strong) UIViewController *rootViewController;
-
-@property (nonatomic, strong) NSString *redirectURI;
-
-@property (nonatomic, copy)   ZYAuthSuccessBlock successBlock;
-
-@property (nonatomic, copy)   ZYAuthFailureBlock failureBlock;
+@interface GoogleAuthManager()
 
 @end
 
@@ -41,31 +32,6 @@
 /** handleOpenURL */
 - (BOOL)openURLWithApplication:(UIApplication *)application handleOpenURL:(NSURL *)url{
     return YES;
-}
-
-
-/** 登录 */
-- (void)loginWithType:(ZYAuthManagerType)type viewController:(UIViewController *)viewController success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
-    self.rootViewController = viewController;
-    [self _googleLoginWithViewController:viewController success:success failure:failure];
-}
-
--(void)loginWithType:(ZYAuthManagerType)type success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
-    NSLog(@"error : 不支持 非VC下唤起登录");
-}
-
-- (void)logOut{
-    [[GIDSignIn sharedInstance] signOut];
-}
-
-
-#pragma mark - private method
-
--(void)_googleLoginWithViewController:(UIViewController *)viewController success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
-    self.successBlock = success;
-    self.failureBlock = failure;
-    [GIDSignIn sharedInstance].uiDelegate = (id)self.rootViewController;
-    [[GIDSignIn sharedInstance] signIn];
 }
 
 

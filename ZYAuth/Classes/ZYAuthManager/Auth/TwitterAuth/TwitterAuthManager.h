@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ZYAuthProtocol.h"
+#import <TwitterKit/TwitterKit.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TwitterAuthManager : NSObject
+@interface TwitterAuthManager : NSObject<ZYAuthProtocol>
 
 @end
 

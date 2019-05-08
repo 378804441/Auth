@@ -7,11 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ZYAuthProtocol.h"
+#import <Weibo_SDK/WeiboSDK.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SinaAuthManager : NSObject
+@interface SinaAuthManager : NSObject<ZYAuthProtocol, WeiboSDKDelegate>
+
+@property (nonatomic, strong) NSString *redirectURI;
+
+@property (nonatomic, copy)   ZYAuthSuccessBlock successBlock;
+
+@property (nonatomic, copy)   ZYAuthFailureBlock failureBlock;
 
 @end
 

@@ -8,18 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "ZYAuthProtocol.h"
-#import <WechatOpenSDK/WXApi.h>
+#import "iOS_OpenSDK_V3.2.0_lite/TencentOpenAPI.framework/Headers/QQApiInterface.h"
+#import "iOS_OpenSDK_V3.2.0_lite/TencentOpenAPI.framework/Headers/TencentOAuth.h"
+
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WechatAuthManager : NSObject<WXApiDelegate, ZYAuthProtocol>
+@interface TencentAuthManager : NSObject<ZYAuthProtocol, QQApiInterfaceDelegate, TencentSessionDelegate>
 
-@property (nonatomic, strong) NSString *appID;
-
-@property (nonatomic, strong) NSString *appSecret;
-
-@property (nonatomic, strong) NSString *random;
+@property (nonatomic, strong) TencentOAuth *oauth;
 
 @property (nonatomic, copy)   ZYAuthSuccessBlock successBlock;
 
