@@ -17,6 +17,8 @@ static NSString *const APP_REDIRECT_URL = @"RedirectUrl";
 static NSString *const TENCENT_KEY  = @"QQ";
 static NSString *const WECHAT_KEY   = @"Wechat";
 static NSString *const SINA_KEY     = @"SinaWeibo";
+static NSString *const GOOGLE_KEY   = @"Google";
+static NSString *const TWITTER_KEY  = @"Twitter";
 
 @interface ZYAuthManager()
 
@@ -43,9 +45,12 @@ static NSString *const SINA_KEY     = @"SinaWeibo";
 - (instancetype)init{
     self = [super init];
     if (self) {
-        Class wxClass      = NSClassFromString(@"WXApi");
-        Class sinaWbClass  = NSClassFromString(@"WeiboSDK");
-        Class tencentClass = NSClassFromString(@"TencentOAuth");
+        Class wxClass            = NSClassFromString(@"WXApi");
+        Class sinaWbClass        = NSClassFromString(@"WeiboSDK");
+        Class tencentClass       = NSClassFromString(@"TencentOAuth");
+        Class googleSigninClass  = NSClassFromString(@"GIDSignIn");
+        Class twitterSigninClass = NSClassFromString(@"GIDSignIn");
+        
         
         // 读取 key 配置文件
         NSString *dicPath  = [[NSBundle mainBundle] pathForResource:@"ZYSDKConfig.bundle/Keys" ofType:@"plist"];
@@ -58,7 +63,7 @@ static NSString *const SINA_KEY     = @"SinaWeibo";
             if (!IsEmpty(wechatKey) && !IsEmpty(wechatSecret)) {
                 id <ZYAuthProtocol>wechatObj = [[NSClassFromString(@"WechatAuthManager") alloc] init];
                 [wechatObj registerAuthWithAppId:nil appKey:wechatKey appSecret:wechatSecret redirectURI:nil];
-                [self.objcDic setObject:wechatObj forKey:[self mappingKeyWithType:ZYAuthManager_wx]];
+                [self.objcDic setObject:wechatObj forKey:[self mappingKeyWithType:ZYAuthManagerWeChat]];
             }
         }
         
@@ -70,7 +75,7 @@ static NSString *const SINA_KEY     = @"SinaWeibo";
             if (!IsEmpty(sinaKey) && !IsEmpty(sinaSecret)) {
                 id <ZYAuthProtocol>sinaObj = [[NSClassFromString(@"SinaAuthManager") alloc] init];;
                 [sinaObj registerAuthWithAppId:nil appKey:sinaKey appSecret:sinaSecret redirectURI:sinaRedirectURI];
-                [self.objcDic setObject:sinaObj forKey:[self mappingKeyWithType:ZYAuthManager_wb]];
+                [self.objcDic setObject:sinaObj forKey:[self mappingKeyWithType:ZYAuthManagerSinaWeibo]];
             }
         }
         
@@ -81,13 +86,60 @@ static NSString *const SINA_KEY     = @"SinaWeibo";
             if (!IsEmpty(tencentID)) {
                 id <ZYAuthProtocol>sinaObj = [[NSClassFromString(@"TencenAuthManager") alloc] init];;
                 [sinaObj registerAuthWithAppId:tencentID appKey:tencentKey appSecret:nil redirectURI:nil];
-                [self.objcDic setObject:sinaObj forKey:[self mappingKeyWithType:ZYAuthManager_qq]];
+                [self.objcDic setObject:sinaObj forKey:[self mappingKeyWithType:ZYAuthManagerTencent]];
+            }
+        }
+        
+        // google
+        if (googleSigninClass) {
+            NSString *googleID  = [[keys objectForKey:GOOGLE_KEY] objectForKey:APP_ID];
+            if (!IsEmpty(googleID)) {
+                id <ZYAuthProtocol>googleObj = [[NSClassFromString(@"GoogleAuthManager") alloc] init];;
+                [googleObj registerAuthWithAppId:googleID appKey:nil appSecret:nil redirectURI:nil];
+                [self.objcDic setObject:googleObj forKey:[self mappingKeyWithType:ZYAuthManagerGoogle]];
+            }
+        }
+        
+        
+        // Twitter
+        if (twitterSigninClass) {
+            NSString *twitterKey    = [[keys objectForKey:TWITTER_KEY] objectForKey:APP_KEY];
+            NSString *twitterSecret = [[keys objectForKey:TWITTER_KEY] objectForKey:APP_SECRET];
+            if (!IsEmpty(twitterKey) && !IsEmpty(twitterSecret)) {
+                id <ZYAuthProtocol>googleObj = [[NSClassFromString(@"GoogleAuthManager") alloc] init];;
+                [googleObj registerAuthWithAppId:nil appKey:twitterKey appSecret:twitterSecret redirectURI:nil];
+                [self.objcDic setObject:googleObj forKey:[self mappingKeyWithType:ZYAuthManagerGoogle]];
             }
         }
         
     }
     return self;
 }
+
+/** facebook 注册 */
+-(void)registerFacebookWithApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
+    Class facebookClass = NSClassFromString(@"FBSDKApplicationDelegate");
+    
+    // Facebook
+    if (facebookClass) {
+        id <ZYAuthProtocol>facebookObj = [[NSClassFromString(@"FacebookAuthManager") alloc] init];
+        [facebookObj registerFacebookWithApplication:application didFinishLaunchingWithOptions:launchOptions];
+        [self.objcDic setObject:facebookObj forKey:[self mappingKeyWithType:ZYAuthManagerFacebook]];
+    }
+    
+}
+
+-(BOOL)openURLFacebookWithApplication:(UIApplication *)application
+                              openURL:(NSURL *)url
+                    sourceApplication:(NSString *)sourceApplication
+                           annotation:(id)annotation{
+    if (!IsNull([self.objcDic objectForKey:[self mappingKeyWithType:ZYAuthManagerFacebook]])) {
+        id <ZYAuthProtocol>facebookObj = [[NSClassFromString(@"FacebookAuthManager") alloc] init];
+        return [facebookObj openURLFacebookWithApplication:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+    }
+    return NO;
+}
+
 
 
 #pragma mark - public method
@@ -111,6 +163,11 @@ static NSString *const SINA_KEY     = @"SinaWeibo";
     [sdkManagerObjc loginWithType:type viewController:viewController success:success failure:failure];
 }
 
+-(void)logOutGoogle{
+    // 初始化完成的SDK Manager对象
+    id <ZYAuthProtocol>sdkManagerObjc = [self.objcDic objectForKey:[self mappingKeyWithType:ZYAuthManagerGoogle]];
+    [sdkManagerObjc logOut];
+}
 
 #pragma mark - private method
 

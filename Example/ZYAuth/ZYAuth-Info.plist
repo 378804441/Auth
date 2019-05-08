@@ -64,7 +64,29 @@
 				<string>zuiyou7a7569796f75</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.831022142104-asi0nen7aunc2rb4mla5bioh9g15i55k</string>
+			</array>
+		</dict>
+
+		<dict> 
+			<key>CFBundleURLSchemes</key> 
+			<array> 
+				<string>fb587086501699961</string>
+			</array>
+		</dict>
 	</array>
+
+
+	<key>FacebookAppID</key> 
+	<string>587086501699961</string> 
+	<key>FacebookDisplayName</key> 
+	<string>Xiner Lu's first app</string>
+
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>LSApplicationQueriesSchemes</key>

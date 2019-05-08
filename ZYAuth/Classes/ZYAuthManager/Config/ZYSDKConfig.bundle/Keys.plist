@@ -2,6 +2,32 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Twitter</key>
+	<dict>
+		<key>ID</key>
+		<string></string>
+		<key>RedirectUrl</key>
+		<string></string>
+		<key>AppKey</key>
+		<string>dYY0c83ZvGl1tyws7I5YRfP2X</string>
+		<key>AppSecret</key>
+		<string>50njy0y0GRqGnAySIot1TVoaGVvmpOiBaGoXkznjk0fh8svMwe</string>
+		<key>AppID</key>
+		<string></string>
+	</dict>
+	<key>Google</key>
+	<dict>
+		<key>ID</key>
+		<string></string>
+		<key>RedirectUrl</key>
+		<string></string>
+		<key>AppKey</key>
+		<string></string>
+		<key>AppSecret</key>
+		<string></string>
+		<key>AppID</key>
+		<string>831022142104-asi0nen7aunc2rb4mla5bioh9g15i55k.apps.googleusercontent.com</string>
+	</dict>
 	<key>Wechat</key>
 	<dict>
 		<key>ID</key>

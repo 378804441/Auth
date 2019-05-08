@@ -16,11 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 #define IsDictionary(obj)       (obj && [obj isKindOfClass:[NSDictionary class]] && [obj.allKeys count] > 0)
 
 
-
 typedef NS_ENUM(NSInteger, ZYAuthManagerType){
-    ZYAuthManager_wx = 0,       // 微信
-    ZYAuthManager_qq,           // QQ
-    ZYAuthManager_wb,           // 微博
+    ZYAuthManagerWeChat = 0,       // 微信
+    ZYAuthManagerTencent,          // QQ
+    ZYAuthManagerSinaWeibo,        // 微博
+    ZYAuthManagerGoogle,           // Google
+    ZYAuthManagerFacebook,         // Facebook
+    ZYAuthManagerTwitter,          // Twitter
 };
 
 @protocol ZYAuthProtocol <NSObject>
@@ -40,6 +42,16 @@ typedef void (^ZYAuthFailureBlock) (BOOL isSuccess, NSString * __nullable errorM
  */
 - (void)registerAuthWithAppId:(NSString * __nullable)appId appKey:(NSString * __nullable)appKey  appSecret:(NSString * __nullable)appSecret redirectURI:(NSString * __nullable)redirectURI;
 
+/**
+ Facebook SDK跟别的有区别, 所以需要单独注册
+ */
+-(void)registerFacebookWithApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
+
+/** openURL facebook */
+-(BOOL)openURLFacebookWithApplication:(UIApplication *)application
+                              openURL:(NSURL *)url
+                    sourceApplication:(NSString *)sourceApplication
+                           annotation:(id)annotation;
 
 /**
  登录
@@ -58,6 +70,9 @@ typedef void (^ZYAuthFailureBlock) (BOOL isSuccess, NSString * __nullable errorM
  failure        : 失败block
  */
 - (void)loginWithType:(ZYAuthManagerType)type viewController:(UIViewController *)viewController success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
+
+
+- (void)logOut;
 
 @end
 

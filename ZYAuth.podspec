@@ -42,5 +42,23 @@ Pod::Spec.new do |s|
       ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/SinaAuth/*.{h,m}'
       ss.dependency 'Weibo_SDK'
   end
- 
+  
+  ####### google #######
+  s.subspec 'GoogleAuth' do |ss|
+      ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/GoogleAuth/*.{h,m}'
+      ss.dependency 'GoogleSignIn'
+  end
+  
+  ####### facebook #######
+  s.subspec 'FacebookAuth' do |ss|
+      ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/FacebookAuth/*.{h,m}'
+      ss.dependency 'FBSDKLoginKit'
+  end
+
+  ####### twitter #######
+  s.subspec 'TwitterAuth' do |ss|
+      ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/TwitterAuth/*.{h,m}'
+      ss.dependency 'TwitterKit'
+  end
+
 end

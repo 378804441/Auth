@@ -7,14 +7,29 @@
 //
 
 #import "ZYAppDelegate.h"
+#import "ZYAuthManager.h"
 
 @implementation ZYAppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    // Override point for customization after application launch.
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
+   
+    // 注册facebook
+    [[ZYAuthManager shareInstance] registerFacebookWithApplication:application didFinishLaunchingWithOptions:launchOptions];
+    
     return YES;
 }
+
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    
+    BOOL facebook = [[ZYAuthManager shareInstance] openURLFacebookWithApplication:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+    
+    return facebook;
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -43,14 +58,6 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-
-
-#pragma mark - openURL
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    
-    return YES;
-}
 
 
 @end

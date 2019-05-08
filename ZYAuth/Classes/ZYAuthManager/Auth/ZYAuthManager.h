@@ -12,17 +12,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/************************ all key *************************/
-static NSString *const QQ_APPID         = @"1103537147";
-static NSString *const QQ_APPKEY        = @"o4vzBP6z5Ip4FUbK";
-/**********************************************************/
-
 
 @interface ZYAuthManager : NSObject 
 
 
 /** 单例初始化 */
 +(ZYAuthManager *)shareInstance;
+
+/** 注册Facebook */
+-(void)registerFacebookWithApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
+
+/** openURL facebook */
+-(BOOL)openURLFacebookWithApplication:(UIApplication *)application
+                              openURL:(NSURL *)url
+                    sourceApplication:(NSString *)sourceApplication
+                           annotation:(id)annotation;
 
 /**
  进行登录
@@ -32,6 +36,8 @@ static NSString *const QQ_APPKEY        = @"o4vzBP6z5Ip4FUbK";
  failure        : 登录失败
  */
 -(void)authLoginWithType:(ZYAuthManagerType)type viewController:(UIViewController *)viewController success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
+
+-(void)logOutGoogle;
 
 @end
 

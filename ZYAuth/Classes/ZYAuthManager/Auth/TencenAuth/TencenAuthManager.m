@@ -24,7 +24,7 @@
 
 /** 向qq注册 */
 -(void)registerAuthWithAppId:(NSString *)appId appKey:(NSString *)appKey appSecret:(NSString *)appSecret redirectURI:(NSString *)redirectURI{
-    self.oauth = [[TencentOAuth alloc] initWithAppId:appKey andDelegate:self];
+    self.oauth = [[TencentOAuth alloc] initWithAppId:appId andDelegate:self];
     [self.oauth setAuthShareType:[self getAuthShareType]];
 }
 
