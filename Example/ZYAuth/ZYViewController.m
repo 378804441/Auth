@@ -8,6 +8,7 @@
 
 #import "ZYViewController.h"
 #import "ZYAuthManager.h"
+#import "WechatShareModel.h"
 
 
 @interface ZYViewController ()
@@ -87,6 +88,31 @@
 
 
 -(void)authLogin:(UIButton *)btn{
+    
+    WechatShareModel *shareModel = [[WechatShareModel alloc] init];
+    shareModel.previewImage = [UIImage imageNamed:@"icon_feed_ask"];
+    shareModel.title        = @"你真的会写Podfile吗?";
+    shareModel.describe     = @"666666";
+    shareModel.urlString    = @"https://www.jianshu.com/p/8a0fd6150159";
+    shareModel.shareScene   = WechatSceneTimeline;
+    
+    [[ZYAuthManager shareInstance] shareWithType:btn.tag shareModel:shareModel success:^(NSString * _Nullable msgStr) {
+        
+    } failure:^(NSString * _Nullable errorMsg, NSError * _Nullable error) {
+        NSLog(@"~~~~~~~~~  %@", errorMsg);
+    }];
+    
+    
+    return;
+    
+    [[ZYAuthManager shareInstance] checkAppSupportApiWithType:btn.tag];
+    
+    return;
+    
+    
+    [[ZYAuthManager shareInstance] checkAppInstalledWithType:btn.tag];
+    
+    return;
     
     if (btn.tag == 103) {
         [[ZYAuthManager shareInstance] logOutGoogle];

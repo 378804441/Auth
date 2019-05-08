@@ -44,6 +44,15 @@
     return NO;
 }
 
+/** 检测是否安装app */
+-(BOOL)checkAppInstalled{
+    return [QQApiInterface isQQInstalled];
+}
+
+-(BOOL)checkAppSupportApi{
+    return [QQApiInterface isQQSupportApi];
+}
+
 
 #pragma mark - private method
 

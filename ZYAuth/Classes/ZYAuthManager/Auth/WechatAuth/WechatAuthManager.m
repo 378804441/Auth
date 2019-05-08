@@ -8,6 +8,7 @@
 
 #import "WechatAuthManager.h"
 #import "WechatAuthManager+Login.h"
+#import "WechatAuthManager+Share.h"
 
 
 @interface WechatAuthManager()
@@ -44,6 +45,15 @@
     } else {
         return NO;
     }
+}
+
+/** 检测是否安装app */
+-(BOOL)checkAppInstalled{
+    return [WXApi isWXAppInstalled];
+}
+
+-(BOOL)checkAppSupportApi{
+    return [WXApi isWXAppSupportApi];
 }
 
 

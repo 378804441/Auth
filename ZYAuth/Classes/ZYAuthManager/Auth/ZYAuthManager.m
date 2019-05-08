@@ -181,6 +181,76 @@ static NSString *const TWITTER_KEY  = @"Twitter";
 }
 
 
+/**
+ 分享
+ type       : 登录类型
+ shareModel : 分享模型
+ success    : 成功block
+ failure    : 失败block
+ */
+- (void)shareWithType:(ZYAuthManagerType)type shareModel:(id)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
+   
+    if (![self checkLoginObjcWithType:type failure:failure]) return;
+    
+    // 初始化完成的SDK Manager对象
+    id <ZYAuthProtocol>sdkManagerObjc = [self.objcDic objectForKey:[self mappingKeyWithType:type]];
+    
+    [sdkManagerObjc shareWithType:type shareModel:shareModel success:success failure:failure];
+    
+}
+
+
+/** 检测app是否安装 */
+-(BOOL)checkAppInstalledWithType:(ZYAuthManagerType)type{
+    // 检查是否可以继续往下走
+    if (![self checkLoginObjcWithType:type failure:nil]) {
+        NSLog(@"error : 索要的类型并没有初始化成功");
+        return NO;
+    }
+    
+    // 初始化完成的SDK Manager对象
+    id <ZYAuthProtocol>sdkManagerObjc = [self.objcDic objectForKey:[self mappingKeyWithType:type]];
+    
+    if(![sdkManagerObjc respondsToSelector:@selector(checkAppInstalled)]){
+        NSLog(@"warning : 当前类型 可能不支持检测是否安装功能");
+        return NO;
+    }
+    return [sdkManagerObjc checkAppInstalled];
+}
+
+/** 检查要打开的app版本是否支持 openApi */
+-(BOOL)checkAppSupportApiWithType:(ZYAuthManagerType)type{
+    // 检查是否可以继续往下走
+    if (![self checkLoginObjcWithType:type failure:nil]) {
+        NSLog(@"error : 索要的类型并没有初始化成功");
+        return NO;
+    }
+    
+    // 初始化完成的SDK Manager对象
+    id <ZYAuthProtocol>sdkManagerObjc = [self.objcDic objectForKey:[self mappingKeyWithType:type]];
+    
+    if(![sdkManagerObjc respondsToSelector:@selector(checkAppSupportApi)]){
+        NSLog(@"warning : 当前类型 可能不支持检测 是否支持openApi功能");
+        return NO;
+    }
+    return [sdkManagerObjc checkAppSupportApi];
+}
+
+
+
+- (void)sendLinkWithUrlString:(NSString *)urlString
+                        title:(NSString *)title
+                  description:(NSString *)description
+                        thumb:(UIImage *)thumb{
+    if (![self checkLoginObjcWithType:0 failure:nil]) {
+        NSLog(@"error : 索要的类型并没有初始化成功");
+    }
+    
+    // 初始化完成的SDK Manager对象
+    id <ZYAuthProtocol>sdkManagerObjc = [self.objcDic objectForKey:[self mappingKeyWithType:0]];
+    [sdkManagerObjc sendLinkWithUrlString:urlString title:title description:description thumb:thumb];
+}
+
 #pragma mark - private method
 
 /** 检查登录类型对象 是否初始化成功 */

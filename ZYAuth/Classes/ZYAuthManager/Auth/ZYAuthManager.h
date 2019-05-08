@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ZYAuthManager : NSObject 
 
 
+#pragma mark - 初始化方法
+
 /** 单例初始化 */
 +(ZYAuthManager *)shareInstance;
 
@@ -29,6 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)openURLWithApplication:(UIApplication *)application handleOpenURL:(NSURL *)url;
 
 
+
+#pragma mark - public method
+
 /**
  进行登录
  type           : 登录类型
@@ -38,7 +43,31 @@ NS_ASSUME_NONNULL_BEGIN
  */
 -(void)authLoginWithType:(ZYAuthManagerType)type viewController:(UIViewController *)viewController success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
 
+/**
+ 分享
+ type       : 登录类型
+ shareModel : 分享模型
+ success    : 成功block
+ failure    : 失败block
+ */
+- (void)shareWithType:(ZYAuthManagerType)type shareModel:(id)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
+
+/** 检测app是否安装 */
+-(BOOL)checkAppInstalledWithType:(ZYAuthManagerType)type;
+
+/** 检查要打开的app版本是否支持 openApi */
+-(BOOL)checkAppSupportApiWithType:(ZYAuthManagerType)type;
+
+
+#pragma mark - test code
+
 -(void)logOutGoogle;
+
+
+- (void)sendLinkWithUrlString:(NSString *)urlString
+                        title:(NSString *)title
+                  description:(NSString *)description
+                        thumb:(UIImage *)thumb;
 
 @end
 

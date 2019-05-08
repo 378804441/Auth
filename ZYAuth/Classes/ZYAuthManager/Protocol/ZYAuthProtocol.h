@@ -31,9 +31,9 @@ typedef NS_ENUM(NSInteger, ZYAuthManagerType){
 @optional
 
 /** 回调block **/
-typedef void (^ZYAuthSuccessBlock )(NSDictionary * __nullable dataDic);
-typedef void (^ZYAuthFailureBlock) (NSString * __nullable errorMsg, NSError *__nullable error);
-
+typedef void (^ZYAuthSuccessBlock)  (NSDictionary * __nullable dataDic);
+typedef void (^ZYAuthFailureBlock)  (NSString * __nullable errorMsg, NSError *__nullable error);
+typedef void (^ZYShareSuccessBlock) (NSString * __nullable msgStr);
 
 /**
  进行注册
@@ -68,6 +68,29 @@ typedef void (^ZYAuthFailureBlock) (NSString * __nullable errorMsg, NSError *__n
  failure        : 失败block
  */
 - (void)loginWithType:(ZYAuthManagerType)type viewController:(UIViewController *)viewController success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
+
+
+/**
+ 分享
+ type       : 登录类型
+ shareModel : 分享模型
+ success    : 成功block
+ failure    : 失败block
+ */
+- (void)shareWithType:(ZYAuthManagerType)type shareModel:(id)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
+
+/** 检测APP是否安装 */
+- (BOOL)checkAppInstalled;
+
+/** 检查要打开的app版本是否支持 openApi */
+- (BOOL)checkAppSupportApi;
+
+
+
+- (void)sendLinkWithUrlString:(NSString *)urlString
+                        title:(NSString *)title
+                  description:(NSString *)description
+                        thumb:(UIImage *)thumb;
 
 
 - (void)logOut;

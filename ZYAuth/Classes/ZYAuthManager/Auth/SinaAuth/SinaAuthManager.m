@@ -39,6 +39,11 @@
     return NO;
 }
 
+/** 检测是否安装app */
+-(BOOL)checkAppInstalled{
+    return [WeiboSDK isWeiboAppInstalled];
+}
+
 
 #pragma mark - 微博 delegate
 
