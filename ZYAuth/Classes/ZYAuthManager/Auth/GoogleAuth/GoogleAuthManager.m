@@ -25,7 +25,7 @@
 #pragma mark - manager Protocol
 
 -(void)registerAuthWithAppId:(NSString *)appId appKey:(NSString *)appKey appSecret:(NSString *)appSecret redirectURI:(NSString *)redirectURI{
-    [GIDSignIn sharedInstance].clientID = @"831022142104-asi0nen7aunc2rb4mla5bioh9g15i55k.apps.googleusercontent.com";
+    [GIDSignIn sharedInstance].clientID = appId;
     [GIDSignIn sharedInstance].delegate = self;
 }
 
