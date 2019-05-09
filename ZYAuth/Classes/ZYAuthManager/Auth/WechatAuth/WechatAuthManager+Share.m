@@ -6,28 +6,27 @@
 //
 
 #import "WechatAuthManager+Share.h"
-#import "WechatShareModel.h"
 
 @implementation WechatAuthManager (Share)
 
 
 #pragma mark - Protocol
 
-- (void)shareWithType:(ZYAuthManagerType)type shareModel:(id)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
-    if (IsNull(shareModel)) {
-        if(failure) failure(@"error : 分享model不能为空 (请初始化一个 WechatShareModel 对象扔进来)", nil);
-        return;
-    }
-    if (![shareModel isKindOfClass:[WechatShareModel class]]) {
-        if(failure) failure(@"error : 微信分享model --- WechatShareModel ", nil);
-        return;
+-(void)shareWithType:(ZYAuthManagerType)type shareModel:(ZYShareModel *)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
+    
+    if (shareModel.shareScene == ZYShareSceneSession          ||
+        shareModel.shareScene == ZYShareSceneTimeline         ||
+        shareModel.shareScene == ZYShareSceneFavorite         ||
+        shareModel.shareScene == ZYShareSceneSpecifiedSession) {
+        [self sendLinkWithShareModel:shareModel success:success failure:failure];
+        
+    }else if(shareModel.shareScene == ZYShareSceneMinprogram){
+        [self sendMiniProgramTo:shareModel success:success failure:failure];
     }
     
-    WechatShareModel *sModel = (WechatShareModel *)shareModel;
-    [self sendLinkWithShareModel:sModel success:success failure:failure];
 }
 
-- (void)sendLinkWithShareModel:(WechatShareModel *)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
+- (void)sendLinkWithShareModel:(ZYShareModel *)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
 
     WXWebpageObject *ext = [WXWebpageObject object];
     ext.webpageUrl = shareModel.urlString;
@@ -50,6 +49,41 @@
     }
     if (success) success(@"分享成功");
 }
+
+
+-(void)sendMiniProgramTo:(ZYShareModel *)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
+    
+    WXMiniProgramObject *miniProgramObject = [WXMiniProgramObject object];
+    miniProgramObject.webpageUrl           = shareModel.urlString;
+    miniProgramObject.userName             = shareModel.minProgramUserName;
+    miniProgramObject.path                 = shareModel.miniProgramPath;
+    miniProgramObject.miniProgramType      = (WXMiniProgramType)shareModel.miniProgramType;
+    miniProgramObject.hdImageData          = [self wxThumbDataWithImageData:UIImageJPEGRepresentation(shareModel.previewImage, 0.5)];
+    
+    WXMediaMessage *message = [WXMediaMessage message];
+    message.title           = [self cutIfNeededWithText:shareModel.title length:512];
+    message.description     = [self cutIfNeededWithText:shareModel.describe length:1024];
+    message.mediaObject     = miniProgramObject;
+    message.thumbData       = nil;
+    
+    SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
+    req.bText = NO;
+    req.message = message;
+    req.scene = WXSceneSession;
+    
+    BOOL ret = [WXApi sendReq:req];
+    if (!ret) {
+        if (failure) failure(@"分享失败", nil);
+        return;
+    }
+    if (success) success(@"分享成功");
+}
+
+
+
+
+
+
 
 
 /**

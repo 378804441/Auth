@@ -188,8 +188,17 @@ static NSString *const TWITTER_KEY  = @"Twitter";
  success    : 成功block
  failure    : 失败block
  */
-- (void)shareWithType:(ZYAuthManagerType)type shareModel:(id)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
+- (void)shareWithType:(ZYAuthManagerType)type shareModel:(ZYShareModel *)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
    
+    if (IsNull(shareModel)) {
+        if(failure) failure(@"error : 分享model不能为空 (请初始化一个 ZYShareModel 对象扔进来)", nil);
+        return;
+    }
+    if (![shareModel isKindOfClass:[ZYShareModel class]]) {
+        if(failure) failure(@"error : 分享model类型 --- ZYShareModel ", nil);
+        return;
+    }
+    
     if (![self checkLoginObjcWithType:type failure:failure]) return;
     
     // 初始化完成的SDK Manager对象

@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ZYShareModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -77,7 +78,7 @@ typedef void (^ZYShareSuccessBlock) (NSString * __nullable msgStr);
  success    : 成功block
  failure    : 失败block
  */
-- (void)shareWithType:(ZYAuthManagerType)type shareModel:(id)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
+- (void)shareWithType:(ZYAuthManagerType)type shareModel:(ZYShareModel *)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
 
 /** 检测APP是否安装 */
 - (BOOL)checkAppInstalled;
