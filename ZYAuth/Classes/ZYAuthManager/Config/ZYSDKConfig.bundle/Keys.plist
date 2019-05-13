@@ -5,20 +5,20 @@
 	<key>Twitter</key>
 	<dict>
 		<key>ID</key>
-		<string></string>
+		<string>0</string>
 		<key>RedirectUrl</key>
 		<string></string>
 		<key>AppKey</key>
-		<string>dYY0c83ZvGl1tyws7I5YRfP2X</string>
+		<string>必填</string>
 		<key>AppSecret</key>
-		<string>50njy0y0GRqGnAySIot1TVoaGVvmpOiBaGoXkznjk0fh8svMwe</string>
+		<string>必填</string>
 		<key>AppID</key>
 		<string></string>
 	</dict>
 	<key>Google</key>
 	<dict>
 		<key>ID</key>
-		<string></string>
+		<string>1</string>
 		<key>RedirectUrl</key>
 		<string></string>
 		<key>AppKey</key>
@@ -26,44 +26,44 @@
 		<key>AppSecret</key>
 		<string></string>
 		<key>AppID</key>
-		<string>831022142104-asi0nen7aunc2rb4mla5bioh9g15i55k.apps.googleusercontent.com</string>
+		<string>必填</string>
 	</dict>
 	<key>Wechat</key>
 	<dict>
 		<key>ID</key>
-		<integer>0</integer>
+		<integer>2</integer>
 		<key>RedirectUrl</key>
 		<string></string>
 		<key>AppKey</key>
 		<string></string>
 		<key>AppSecret</key>
-		<string>55aaba0bfa074a4384c708dd47861c15</string>
+		<string>必填</string>
 		<key>AppID</key>
-		<string>wx16516ad81c31d872</string>
+		<string>必填</string>
 	</dict>
 	<key>QQ</key>
 	<dict>
 		<key>ID</key>
-		<integer>1</integer>
+		<integer>3</integer>
 		<key>RedirectUrl</key>
 		<string></string>
 		<key>AppKey</key>
-		<string>o4vzBP6z5Ip4FUbK</string>
+		<string>必填</string>
 		<key>AppSecret</key>
 		<string></string>
 		<key>AppID</key>
-		<string>1103537147</string>
+		<string>必填</string>
 	</dict>
 	<key>SinaWeibo</key>
 	<dict>
 		<key>ID</key>
-		<integer>2</integer>
+		<integer>4</integer>
 		<key>RedirectUrl</key>
-		<string>http://sns.whalecloud.com/sina2/callback</string>
+		<string>如果要分享的话 选填</string>
 		<key>AppKey</key>
-		<string>4117400114</string>
+		<string>必填</string>
 		<key>AppSecret</key>
-		<string>39a009263ca6171e492a4024ccdf31be</string>
+		<string>必填</string>
 		<key>AppID</key>
 		<string></string>
 	</dict>

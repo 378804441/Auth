@@ -16,6 +16,7 @@
 -(void)shareWithModel:(ZYShareModel *)shareModel viewController:(UIViewController * __nullable)viewController success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
     self.shareSuccessBlock = success;
     self.failureBlock      = failure;
+    
     if (shareModel.shareScene == ZYShareSceneSession ||
         shareModel.shareScene == ZYShareSceneTimeline) {
         if (shareModel.shareType == ZYShareTypeText || shareModel.shareType == ZYShareTypeLink) {

@@ -132,6 +132,13 @@ static NSString *const TWITTER_KEY  = @"Twitter";
             [self.objcDic setObject:facebookObj forKey:[self mappingKeyWithType:managerType]];
         }
         
+        // whatsapp
+        {
+            ZYAuthManagerType managerType  = ZYAuthManagerWhatsapp;
+            id <ZYAuthProtocol>whatsappObj = [[NSClassFromString(@"WhatsappAuthManager") alloc] init];
+            [whatsappObj registerAuthWithAppId:nil appKey:nil appSecret:nil redirectURI:nil];
+            [self.objcDic setObject:whatsappObj forKey:[self mappingKeyWithType:managerType]];
+        }
     }
     return self;
 }

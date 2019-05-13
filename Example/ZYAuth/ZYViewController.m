@@ -82,6 +82,16 @@
     [twitterBtn addTarget:self action:@selector(authLogin:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:twitterBtn];
     
+    
+    /****************************** w ***********************************/
+    UIButton *whatsappBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(wxBtn.frame), CGRectGetMaxY(twitterBtn.frame)+20, wxBtn.frame.size.width, wxBtn.frame.size.height)];
+    whatsappBtn.backgroundColor = [UIColor yellowColor];
+    whatsappBtn.tag = 6;
+    [whatsappBtn setTitle:@"whatsapp登录" forState:UIControlStateNormal];
+    [whatsappBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [whatsappBtn addTarget:self action:@selector(authLogin:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:whatsappBtn];
+    
 }
 
 
@@ -90,7 +100,7 @@
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"1.mp4" ofType:nil];
  
-    ZYShareModel *shareModel = [[ZYShareModel alloc] initWithShareType:ZYShareTypeText];
+    ZYShareModel *shareModel = [[ZYShareModel alloc] initWithShareType:ZYShareTypeLink];
     shareModel.previewImage  = [UIImage imageNamed:@"icon_feed_ask"];
     shareModel.title         = @"你真的会写Podfile吗?";
     shareModel.describe      = @"666666";

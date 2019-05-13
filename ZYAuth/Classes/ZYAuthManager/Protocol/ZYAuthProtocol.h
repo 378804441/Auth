@@ -20,12 +20,13 @@ NS_ASSUME_NONNULL_BEGIN
 #define SS(strongSelf)  __strong __typeof__(weakSelf) strongSelf = weakSelf
 
 typedef NS_ENUM(NSInteger, ZYAuthManagerType){
-    ZYAuthManagerWeChat = 0,       // 微信
-    ZYAuthManagerTencent,          // QQ
-    ZYAuthManagerSinaWeibo,        // 微博
-    ZYAuthManagerGoogle,           // Google
-    ZYAuthManagerFacebook,         // Facebook
-    ZYAuthManagerTwitter,          // Twitter
+    ZYAuthManagerWeChat    = 0,    // 微信
+    ZYAuthManagerTencent   = 1,    // QQ
+    ZYAuthManagerSinaWeibo = 2,    // 微博
+    ZYAuthManagerGoogle    = 3,    // Google
+    ZYAuthManagerFacebook  = 4,    // Facebook
+    ZYAuthManagerTwitter   = 5,    // Twitter
+    ZYAuthManagerWhatsapp  = 6,    // Whatsapp
 };
 
 @protocol ZYAuthProtocol <NSObject>
@@ -61,7 +62,7 @@ typedef void (^ZYShareSuccessBlock) (NSString * __nullable succeMsg);
 - (void)loginWithType:(ZYAuthManagerType)type success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
 
 /** 带依附vc的 */
-- (void)loginWithType:(ZYAuthManagerType)type viewController:(UIViewController *)viewController success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
+- (void)loginWithType:(ZYAuthManagerType)type viewController:(UIViewController *__nullable)viewController success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
 
 
 /**
