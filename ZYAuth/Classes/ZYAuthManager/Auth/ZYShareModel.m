@@ -5,6 +5,8 @@
 //  Created by 丁巍 on 2019/5/8.
 //
 
+
+
 #import "ZYShareModel.h"
 
 #define NotNilAndNull(_ref)  (((_ref) != nil) && (![(_ref) isEqual:[NSNull null]]) && ![_ref isEqual: @""] && ![_ref isEqual: @"<null>"])
@@ -14,15 +16,18 @@
 
 @property (nonatomic, assign, readwrite) ZYShareType shareType;
 
+@property (nonatomic, assign, readwrite) ZYAuthType  authType;
+
 @end
 
 
 @implementation ZYShareModel
 
 
-- (instancetype)initWithShareType:(ZYShareType)shareType{
+- (instancetype)initWithShareType:(ZYShareType)shareType authType:(ZYAuthType)authType{
     self = [super init];
     if (self) {
+        self.authType  = authType;
         self.shareType = shareType;
     }
     return self;
@@ -72,6 +77,13 @@
     return @"";
 }
 
+- (NSString *)musicUrl{
+    if(NotNilAndNull(_musicUrl)) {
+        return _musicUrl;
+    }
+    return @"";
+}
+
 
 #pragma mark - Facebook 专属 属性
 
@@ -97,47 +109,6 @@
         return @[_previewImage];
     }
     return nil;
-}
-
-
-
--(void)setShareType:(ZYShareType)shareType{
-    _shareType = shareType;
-    switch (shareType) {
-        
-             /** 文本类型 */
-        case ZYShareTypeText:
-            NSLog(@"%@", DefaultVar);
-            break;
-            
-            /** 链接类型 */
-        case ZYShareTypeLink:
-            NSLog(@"%@", DefaultVar);
-            break;
-            
-            /** 图片类型 */
-        case ZYShareTypeImage:
-            NSLog(@"%@", DefaultVar);
-            break;
-            
-            /** 视频类型 */
-        case ZYShareTypeVideo:
-            NSLog(@"%@", DefaultVar);
-            break;
-            
-            /** 音乐类型 */
-        case ZYShareTypeMusic:
-            NSLog(@"%@", DefaultVar);
-            break;
-            
-            /** 小程序类型 */
-        case ZYShareTypeMinprogram:
-            NSLog(@"%@", [NSString stringWithFormat:@"%@独占字段:\n minProgramUserName\n miniProgramType\n miniProgramPath\n", DefaultVar]);
-            break;
-        default:
-            break;
-    }
-    
 }
 
 

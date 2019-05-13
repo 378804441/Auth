@@ -9,9 +9,9 @@
 		<key>RedirectUrl</key>
 		<string></string>
 		<key>AppKey</key>
-		<string>必填</string>
+		<string>dYY0c83ZvGl1tyws7I5YRfP2X</string>
 		<key>AppSecret</key>
-		<string>必填</string>
+		<string>50njy0y0GRqGnAySIot1TVoaGVvmpOiBaGoXkznjk0fh8svMwe</string>
 		<key>AppID</key>
 		<string></string>
 	</dict>
@@ -26,7 +26,7 @@
 		<key>AppSecret</key>
 		<string></string>
 		<key>AppID</key>
-		<string>必填</string>
+		<string>831022142104-asi0nen7aunc2rb4mla5bioh9g15i55k.apps.googleusercontent.com</string>
 	</dict>
 	<key>Wechat</key>
 	<dict>
@@ -37,9 +37,9 @@
 		<key>AppKey</key>
 		<string></string>
 		<key>AppSecret</key>
-		<string>必填</string>
+		<string>55aaba0bfa074a4384c708dd47861c15</string>
 		<key>AppID</key>
-		<string>必填</string>
+		<string>wx16516ad81c31d872</string>
 	</dict>
 	<key>QQ</key>
 	<dict>
@@ -48,22 +48,22 @@
 		<key>RedirectUrl</key>
 		<string></string>
 		<key>AppKey</key>
-		<string>必填</string>
+		<string>o4vzBP6z5Ip4FUbK</string>
 		<key>AppSecret</key>
 		<string></string>
 		<key>AppID</key>
-		<string>必填</string>
+		<string>1103537147</string>
 	</dict>
 	<key>SinaWeibo</key>
 	<dict>
 		<key>ID</key>
 		<integer>4</integer>
 		<key>RedirectUrl</key>
-		<string>如果要分享的话 选填</string>
+		<string>http://sns.whalecloud.com/sina2/callback</string>
 		<key>AppKey</key>
-		<string>必填</string>
+		<string>4117400114</string>
 		<key>AppSecret</key>
-		<string>必填</string>
+		<string>39a009263ca6171e492a4024ccdf31be</string>
 		<key>AppID</key>
 		<string></string>
 	</dict>

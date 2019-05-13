@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** 压缩图片 */
 + (NSData *)thumbDataWithImageData:(NSData *)imageData;
-
++ (NSData *)imageDataWithImageData:(NSData *)imageData;
 
 #pragma mark - 新浪微博
 

@@ -93,7 +93,6 @@
 }
 
 
-
 /**
  *  分享文字和web资源到新浪微博，无需授权
  *  跳转到新浪微博后还有修改内容的机会
@@ -109,7 +108,7 @@
     webpage.objectID         = shareModel.urlString;
     webpage.title            = shareModel.title;
     webpage.description      = shareModel.describe;
-    webpage.thumbnailData    = [ZYShareUtils thumbDataWithImageData:UIImageJPEGRepresentation(shareModel.image, 0.5)];
+    webpage.thumbnailData    = [ZYShareUtils thumbDataWithImageData:UIImageJPEGRepresentation(shareModel.previewImage, 0.5)];
     webpage.webpageUrl       = shareModel.urlString;
     message.mediaObject      = webpage;
     

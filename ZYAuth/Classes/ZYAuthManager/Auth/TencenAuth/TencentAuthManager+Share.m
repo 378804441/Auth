@@ -19,7 +19,7 @@
     
     if (shareModel.shareScene == ZYShareSceneSession ||
         shareModel.shareScene == ZYShareSceneTimeline) {
-        if (shareModel.shareType == ZYShareTypeText || shareModel.shareType == ZYShareTypeLink) {
+        if (shareModel.shareType == ZYShareTypeLink) {
             [self sendWithShareModel:shareModel success:success failure:failure];
         }else if(shareModel.shareType == ZYShareTypeImage){
             [self sendImageWith:shareModel success:success failure:failure];

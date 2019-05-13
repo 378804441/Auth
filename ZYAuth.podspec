@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
   ####### 腾讯 ######
   s.subspec 'TencenAuth' do |ss|
       ss.subspec 'TencenSDK' do |sss|
-          sss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/TencenAuth/iOS_OpenSDK_V3.2.0_lite/**/*'
+          sss.vendored_frameworks = 'ZYAuth/Classes/ZYAuthManager/Auth/TencenAuth/iOS_OpenSDK_V3.2.0_lite/TencentOpenAPI.framework'
       end
       ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/TencenAuth/*.{h,m}'
   end

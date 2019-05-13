@@ -27,6 +27,18 @@
 }
 
 
++ (NSData *)imageDataWithImageData:(NSData *)imageData {
+    // 如果是gif，则不能压缩，直接返回
+    if ([[self xc_contentTypeForImageData:imageData] isEqualToString:@"image/gif"]) {
+        return imageData;
+    }else {
+        // 微信分享图片最大10M
+        return [[self class] imageDataWithImageData:imageData maxDataLength:10 * 1024 * 1024];
+    }
+}
+
+
+
 + (NSData *)thumbDataWithImageData:(NSData *)imageData {
     // 微信缩略图最大32K
     

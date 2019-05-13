@@ -100,14 +100,14 @@
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"1.mp4" ofType:nil];
  
-    ZYShareModel *shareModel = [[ZYShareModel alloc] initWithShareType:ZYShareTypeLink];
-    shareModel.previewImage  = [UIImage imageNamed:@"icon_feed_ask"];
-    shareModel.title         = @"你真的会写Podfile吗?";
-    shareModel.describe      = @"666666";
-    shareModel.urlString     = @"https://www.jianshu.com/p/8a0fd6150159";
-    shareModel.facebookVideoPath = path;
-    shareModel.text          = @"你真的会写Podfile吗?";
-    
+    ZYShareModel *shareModel = [[ZYShareModel alloc] initWithShareType:ZYShareTypeLink authType:btn.tag];
+//                                initWithShareType:ZYShareTypeLink];
+//    shareModel.previewImage  = [UIImage imageNamed:@"icon_feed_ask"];
+//    shareModel.title         = @"你真的会写Podfile吗?";
+//    shareModel.describe      = @"666666";
+//    shareModel.urlString     = @"https://www.jianshu.com/p/8a0fd6150159";
+//    shareModel.facebookVideoPath = path;
+//    shareModel.text          = @"你真的会写Podfile吗?";
     
 //    shareModel.minProgramUserName = @"gh_729729ad7a36";
 //    shareModel.miniProgramType    = ZYShareSceneTimeline;

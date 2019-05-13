@@ -5,6 +5,8 @@
 //  Created by 丁巍 on 2019/5/8.
 //
 
+
+
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -12,12 +14,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** model 类型 */
 typedef NS_ENUM(NSInteger, ZYShareType){
-    ZYShareTypeText       = 0,   /** 文本类型 */
-    ZYShareTypeLink       = 1,   /** 链接类型 */
-    ZYShareTypeImage      = 2,   /** 图片类型 */
-    ZYShareTypeVideo      = 3,   /** 视频类型 */
-    ZYShareTypeMusic      = 4,   /** 音乐类型 */
-    ZYShareTypeMinprogram = 5    /** 小程序类型 */
+    ZYShareTypeLink       = 0,   /** 链接类型 */
+    ZYShareTypeImage      = 1,   /** 图片类型 */
+    ZYShareTypeVideo      = 2,   /** 视频类型 */
+    ZYShareTypeMusic      = 3,   /** 音乐类型 */
+    ZYShareTypeMinprogram = 4    /** 小程序类型 */
+};
+
+/** 授权平台类型 */
+typedef NS_ENUM(NSInteger, ZYAuthType){
+    ZYAuthTypeWeChat    = 0,    // 微信
+    ZYAuthTypeTencent   = 1,    // QQ
+    ZYAuthTypeSinaWeibo = 2,    // 微博
+    ZYAuthTypeGoogle    = 3,    // Google
+    ZYAuthTypeFacebook  = 4,    // Facebook
+    ZYAuthTypeTwitter   = 5,    // Twitter
+    ZYAuthTypeWhatsapp  = 6,    // Whatsapp
 };
 
 /** 微信小程序状态 */
@@ -40,15 +52,22 @@ typedef NS_ENUM(NSInteger, ZYShareSceneType){
 };
 
 
-
 @interface ZYShareModel : NSObject
 
-/** 初始化 指定分享model 类型 */
-- (instancetype)initWithShareType:(ZYShareType)shareType;
+- (instancetype) init __attribute__((unavailable("此框架禁用init方法, 请使用提供的初始化方。")));
++ (instancetype) new  __attribute__((unavailable("此框架禁用new方法, 请使用提供的初始化方。")));
 
+
+#pragma mark - 初始化
+
+/** 初始化 指定分享model 类型 */
+- (instancetype)initWithShareType:(ZYShareType)shareType authType:(ZYAuthType)authType;
+
+
+#pragma mark - public property
 
 /**
- 分享文本(例如分享纯文本就传这个)
+ 分享文本
  */
 @property (nonatomic, copy) NSString *text;
 
@@ -82,14 +101,21 @@ typedef NS_ENUM(NSInteger, ZYShareSceneType){
  */
 @property (nonatomic, copy) NSString *previewUrlString;
 
+/** 分享到哪,目标(会话, 朋友圈 等) */
+@property (nonatomic, assign) ZYShareSceneType shareScene;
 
 
 /** 分享类型 */
 @property (nonatomic, assign, readonly) ZYShareType shareType;
 
-/** 分享目标 */
-@property (nonatomic, assign) ZYShareSceneType shareScene;
+/** 授权平台类型 */
+@property (nonatomic, assign, readonly) ZYAuthType  authType;
 
+
+#pragma mark - 微信 音乐分享 专属 属性
+
+/** 音乐数据url地址 长度不能超过10K */
+@property (nonatomic, copy) NSString *musicUrl;
 
 
 #pragma mark - 微信小程序 专属 属性
