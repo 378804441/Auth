@@ -19,9 +19,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) TencentOAuth *oauth;
 
-@property (nonatomic, copy)   ZYAuthSuccessBlock successBlock;
+/** 登录成功block */
+@property (nonatomic, copy)   ZYAuthSuccessBlock  successBlock;
 
-@property (nonatomic, copy)   ZYAuthFailureBlock failureBlock;
+/** 分享成功block */
+@property (nonatomic, copy)   ZYShareSuccessBlock shareSuccessBlock;
+
+/** 发生错误block */
+@property (nonatomic, copy)   ZYAuthFailureBlock  failureBlock;
+
+
+/** 获取 授权/分享 方式 */
+- (TencentAuthShareType)getAuthShareType;
+
+/** 分享到QQ 或 TIM */
+- (ShareDestType)getShareDescType;
 
 @end
 

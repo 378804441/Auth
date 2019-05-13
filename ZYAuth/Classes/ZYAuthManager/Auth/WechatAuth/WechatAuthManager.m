@@ -61,8 +61,21 @@
 
 /** 发送一个sendReq后，收到微信的回应 */
 -(void)onResp:(BaseResp *)resp{
-
+    
+    // 分享时的回调
     if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
+        if (resp.errCode == WXSuccess) {
+            if(self.shareSuccessBlock) self.shareSuccessBlock(@"分享成功");
+        } else if (resp.errCode == WXErrCodeUserCancel) {
+            if(self.failureBlock) self.failureBlock(@"取消分享", nil);
+        } else {
+            if(self.failureBlock) self.failureBlock(resp.errStr, nil);
+        }
+    }
+
+    
+    // 三方登录时的回调
+    else if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
         if (resp.errCode == WXSuccess) {
             if(self.successBlock) self.successBlock(nil);
         } else if (resp.errCode == WXErrCodeUserCancel) {

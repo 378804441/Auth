@@ -53,6 +53,7 @@ Pod::Spec.new do |s|
   s.subspec 'FacebookAuth' do |ss|
       ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/FacebookAuth/*.{h,m}'
       ss.dependency 'FBSDKLoginKit'
+      ss.dependency 'FBSDKShareKit'
   end
 
   ####### twitter #######

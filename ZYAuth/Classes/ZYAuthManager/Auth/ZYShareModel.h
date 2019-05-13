@@ -10,37 +10,41 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
+/** model 类型 */
 typedef NS_ENUM(NSInteger, ZYShareType){
-    ZYShareTypeText = 0,     /** 文本类型 */
-    ZYShareTypeLink,         /** 链接类型 */
-    ZYShareTypeImage,        /** 图片类型 */
-    ZYShareTypeVideo,        /** 视频类型 */
-    ZYShareTypeMusic,        /** 音乐类型 */
-    ZYShareTypeMinprogram    /** 小程序类型 */
-};
-
-/** 分享目标 */
-typedef NS_ENUM(NSInteger, ZYShareSceneType){
-    ZYShareSceneSession          = 0, /** 聊天界面   */
-    ZYShareSceneTimeline,             /** 朋友圈    */
-    ZYShareSceneFavorite,             /** 收藏      */
-    ZYShareSceneSpecifiedSession,     /** 指定联系人 */
-    ZYShareSceneMinprogram,           /** 小程序 : 微信独占*/
-    
+    ZYShareTypeText       = 0,   /** 文本类型 */
+    ZYShareTypeLink       = 1,   /** 链接类型 */
+    ZYShareTypeImage      = 2,   /** 图片类型 */
+    ZYShareTypeVideo      = 3,   /** 视频类型 */
+    ZYShareTypeMusic      = 4,   /** 音乐类型 */
+    ZYShareTypeMinprogram = 5    /** 小程序类型 */
 };
 
 /** 微信小程序状态 */
 typedef NS_ENUM(NSUInteger, ZYMiniProgramType){
-    ZYMiniProgramTypeRelease = 0,       //**< 正式版  */
-    ZYMiniProgramTypeTest = 1,          //**< 开发版  */
-    ZYMiniProgramTypePreview = 2,       //**< 体验版  */
+    ZYMiniProgramTypeRelease = 0,       /** 正式版  */
+    ZYMiniProgramTypeTest    = 1,       /** 开发版  */
+    ZYMiniProgramTypePreview = 2,       /** 体验版  */
 };
+
+/**
+ 分享目标
+ 注 : 该枚举只在国内平台生效，如Facebook twitter 等国外平台不生效, 无需赋值(赋值也不好使)
+ */
+typedef NS_ENUM(NSInteger, ZYShareSceneType){
+    ZYShareSceneSession           = 0,   /** 聊天界面   */
+    ZYShareSceneTimeline          = 1,   /** 朋友圈 / QQ空间 */
+    ZYShareSceneFavorite          = 2,   /** 收藏      */
+    ZYShareSceneSpecifiedSession  = 3,   /** 指定联系人 */
+    ZYShareSceneMinprogram        = 4,   /** 小程序 : 微信独占*/
+};
+
 
 
 @interface ZYShareModel : NSObject
 
-/** 初始化 指定 分享平台目标 */
-- (instancetype)initWithShareScene:(ZYShareSceneType)sceneType;
+/** 初始化 指定分享model 类型 */
+- (instancetype)initWithShareType:(ZYShareType)shareType;
 
 
 /**
@@ -80,6 +84,16 @@ typedef NS_ENUM(NSUInteger, ZYMiniProgramType){
 
 
 
+/** 分享类型 */
+@property (nonatomic, assign, readonly) ZYShareType shareType;
+
+/** 分享目标 */
+@property (nonatomic, assign) ZYShareSceneType shareScene;
+
+
+
+#pragma mark - 微信小程序 专属 属性
+
 /** 微信小程序username */
 @property (nonatomic, copy) NSString *minProgramUserName;
 
@@ -91,8 +105,14 @@ typedef NS_ENUM(NSUInteger, ZYMiniProgramType){
 
 
 
-/** 分享目标 */
-@property (nonatomic, assign) ZYShareSceneType shareScene;
+#pragma mark - Facebook 专属 属性
+
+/** 本地视频资源地址 */
+@property (nonatomic, strong) NSString *facebookVideoPath;
+
+/** image 数组 */
+@property (nonatomic, strong) NSArray <UIImage *>*facebookImages;
+
 
 
 @end

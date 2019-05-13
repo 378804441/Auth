@@ -86,6 +86,14 @@
 				<string>wx16516ad81c31d872</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>twitterkit-33b24cafafe249ec8d70d11c7c61e459</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
@@ -95,6 +103,12 @@
 	<string>Xiner Lu's first app</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>twitterauth</string>
+		<string>twitter</string>
+		<string>fbshareextension</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbapi</string>
 		<string>mqqOpensdkSSoLogin</string>
 		<string>mqzone</string>
 		<string>sinaweibohd</string>
@@ -117,6 +131,10 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Photo</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

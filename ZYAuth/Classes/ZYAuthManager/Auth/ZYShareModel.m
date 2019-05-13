@@ -10,14 +10,20 @@
 #define NotNilAndNull(_ref)  (((_ref) != nil) && (![(_ref) isEqual:[NSNull null]]) && ![_ref isEqual: @""] && ![_ref isEqual: @"<null>"])
 #define DefaultVar @"\n可能需要的字段 : \n text\n title\n describe\n image\n previewImage\n urlString\n previewUrlString\n"
 
+@interface ZYShareModel()
+
+@property (nonatomic, assign, readwrite) ZYShareType shareType;
+
+@end
+
 
 @implementation ZYShareModel
 
 
-- (instancetype)initWithShareScene:(ZYShareSceneType)sceneType{
+- (instancetype)initWithShareType:(ZYShareType)shareType{
     self = [super init];
     if (self) {
-        
+        self.shareType = shareType;
     }
     return self;
 }
@@ -67,22 +73,65 @@
 }
 
 
--(void)setShareScene:(ZYShareSceneType)shareScene{
-    _shareScene = shareScene;
-    switch (shareScene) {
-        case ZYShareSceneSession:
+#pragma mark - Facebook 专属 属性
+
+-(NSString *)facebookVideoPath{
+    if(NotNilAndNull(_facebookVideoPath)) {
+        return _facebookVideoPath;
+    }
+    return @"";
+}
+
+
+/** 做一些降级处理  facebookImages -> image -> previewImage */
+- (NSArray <UIImage *>*)facebookImages {
+    if(NotNilAndNull(_facebookImages)) {
+        return _facebookImages;
+    }
+    
+    if (NotNilAndNull(_image)) {
+        return @[_image];
+    }
+    
+    if (NotNilAndNull(_previewImage)) {
+        return @[_previewImage];
+    }
+    return nil;
+}
+
+
+
+-(void)setShareType:(ZYShareType)shareType{
+    _shareType = shareType;
+    switch (shareType) {
+        
+             /** 文本类型 */
+        case ZYShareTypeText:
             NSLog(@"%@", DefaultVar);
             break;
-        case ZYShareSceneTimeline:
+            
+            /** 链接类型 */
+        case ZYShareTypeLink:
             NSLog(@"%@", DefaultVar);
             break;
-        case ZYShareSceneFavorite:
+            
+            /** 图片类型 */
+        case ZYShareTypeImage:
             NSLog(@"%@", DefaultVar);
             break;
-        case ZYShareSceneSpecifiedSession:
+            
+            /** 视频类型 */
+        case ZYShareTypeVideo:
             NSLog(@"%@", DefaultVar);
             break;
-        case ZYShareSceneMinprogram:
+            
+            /** 音乐类型 */
+        case ZYShareTypeMusic:
+            NSLog(@"%@", DefaultVar);
+            break;
+            
+            /** 小程序类型 */
+        case ZYShareTypeMinprogram:
             NSLog(@"%@", [NSString stringWithFormat:@"%@独占字段:\n minProgramUserName\n miniProgramType\n miniProgramPath\n", DefaultVar]);
             break;
         default:

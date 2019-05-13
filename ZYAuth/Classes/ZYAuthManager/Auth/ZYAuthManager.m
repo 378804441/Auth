@@ -8,7 +8,7 @@
 
 #import "ZYAuthManager.h"
 #import "ZYThreadSafeDictionary.h"
-#import <objc/runtime.h>
+#import "ZYAppdelegateHook.h"
 
 static NSString *const APP_ID           = @"AppID";
 static NSString *const APP_KEY          = @"AppKey";
@@ -34,7 +34,6 @@ static NSString *const TWITTER_KEY  = @"Twitter";
 
 #pragma mark - init
 
-
 +(ZYAuthManager *)shareInstance {
     static ZYAuthManager *instance = nil;
     static dispatch_once_t obj;
@@ -48,6 +47,9 @@ static NSString *const TWITTER_KEY  = @"Twitter";
 - (instancetype)init{
     self = [super init];
     if (self) {
+        
+        [ZYAppdelegateHook registerAppDelegateClass:[self class]];
+        
         self.objcDic             = [ZYThreadSafeDictionary dictionary];
         Class wxClass            = NSClassFromString(@"WXApi");
         Class sinaWbClass        = NSClassFromString(@"WeiboSDK");
@@ -134,7 +136,6 @@ static NSString *const TWITTER_KEY  = @"Twitter";
     return self;
 }
 
-
 /** openURL */
 -(BOOL)openURLWithApplication:(UIApplication *)application
                       openURL:(NSURL *)url
@@ -180,7 +181,6 @@ static NSString *const TWITTER_KEY  = @"Twitter";
     [sdkManagerObjc loginWithType:type viewController:viewController success:success failure:failure];
 }
 
-
 /**
  分享
  type       : 登录类型
@@ -188,7 +188,7 @@ static NSString *const TWITTER_KEY  = @"Twitter";
  success    : 成功block
  failure    : 失败block
  */
-- (void)shareWithType:(ZYAuthManagerType)type shareModel:(ZYShareModel *)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
+- (void)shareWithType:(ZYAuthManagerType)type shareModel:(ZYShareModel *)shareModel viewController:(UIViewController * _Nullable)viewController success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
    
     if (IsNull(shareModel)) {
         if(failure) failure(@"error : 分享model不能为空 (请初始化一个 ZYShareModel 对象扔进来)", nil);
@@ -204,10 +204,13 @@ static NSString *const TWITTER_KEY  = @"Twitter";
     // 初始化完成的SDK Manager对象
     id <ZYAuthProtocol>sdkManagerObjc = [self.objcDic objectForKey:[self mappingKeyWithType:type]];
     
-    [sdkManagerObjc shareWithType:type shareModel:shareModel success:success failure:failure];
+    if (IsNull(viewController)) {
+        [sdkManagerObjc shareWithModel:shareModel success:success failure:failure];
+    }else if(!IsNull(viewController)){
+        [sdkManagerObjc shareWithModel:shareModel viewController:viewController success:success failure:failure];
+    }
     
 }
-
 
 /** 检测app是否安装 */
 -(BOOL)checkAppInstalledWithType:(ZYAuthManagerType)type{
@@ -245,8 +248,6 @@ static NSString *const TWITTER_KEY  = @"Twitter";
     return [sdkManagerObjc checkAppSupportApi];
 }
 
-
-
 - (void)sendLinkWithUrlString:(NSString *)urlString
                         title:(NSString *)title
                   description:(NSString *)description
@@ -259,6 +260,7 @@ static NSString *const TWITTER_KEY  = @"Twitter";
     id <ZYAuthProtocol>sdkManagerObjc = [self.objcDic objectForKey:[self mappingKeyWithType:0]];
     [sdkManagerObjc sendLinkWithUrlString:urlString title:title description:description thumb:thumb];
 }
+
 
 #pragma mark - private method
 

@@ -24,8 +24,9 @@
 
 /** openURL */
 -(BOOL)openURLWithApplication:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
-    return YES;
+    return [[Twitter sharedInstance] application:application openURL:url options:annotation];
 }
+
 
 /** handleOpenURL */
 - (BOOL)openURLWithApplication:(UIApplication *)application handleOpenURL:(NSURL *)url{

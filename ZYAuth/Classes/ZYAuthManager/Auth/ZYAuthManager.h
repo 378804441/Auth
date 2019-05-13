@@ -50,7 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
  success    : 成功block
  failure    : 失败block
  */
-- (void)shareWithType:(ZYAuthManagerType)type shareModel:(ZYShareModel *)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
+- (void)shareWithType:(ZYAuthManagerType)type shareModel:(ZYShareModel *)shareModel viewController:(UIViewController * _Nullable)viewController success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
+
 
 /** 检测app是否安装 */
 -(BOOL)checkAppInstalledWithType:(ZYAuthManagerType)type;

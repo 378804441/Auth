@@ -110,9 +110,20 @@
 }
 
 - (void)onResp:(QQBaseResp *)resp {
+    if (resp.type == ESENDMESSAGETOQQRESPTYPE) {
+        SendMessageToQQResp *sendResp = (SendMessageToQQResp *)resp;
+        if ([sendResp.result isEqualToString:@"0"]) {
+            if(self.shareSuccessBlock) self.shareSuccessBlock(@"分享成功");
+        }else if ([sendResp.result isEqualToString:@"-4"]) {
+            if (self.failureBlock) self.failureBlock(@"取消分享", nil);
+        }else {
+            if (self.failureBlock) self.failureBlock(sendResp.errorDescription, nil);
+        }
+    }
 }
 
 - (void)onReq:(QQBaseReq *)req {
+    
 }
 
 - (void)isOnlineResponse:(NSDictionary *)response {

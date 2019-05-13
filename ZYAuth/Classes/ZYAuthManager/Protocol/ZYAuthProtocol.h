@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, ZYAuthManagerType){
 /** 回调block **/
 typedef void (^ZYAuthSuccessBlock)  (NSDictionary * __nullable dataDic);
 typedef void (^ZYAuthFailureBlock)  (NSString * __nullable errorMsg, NSError *__nullable error);
-typedef void (^ZYShareSuccessBlock) (NSString * __nullable msgStr);
+typedef void (^ZYShareSuccessBlock) (NSString * __nullable succeMsg);
 
 /**
  进行注册
@@ -60,14 +60,7 @@ typedef void (^ZYShareSuccessBlock) (NSString * __nullable msgStr);
  */
 - (void)loginWithType:(ZYAuthManagerType)type success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
 
-
-/**
- 登录 - 需要有模态窗口的
- type           : 登录类型
- viewController : 需要模态的依附ViewController
- success        : 成功block
- failure        : 失败block
- */
+/** 带依附vc的 */
 - (void)loginWithType:(ZYAuthManagerType)type viewController:(UIViewController *)viewController success:(ZYAuthSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
 
 
@@ -78,7 +71,11 @@ typedef void (^ZYShareSuccessBlock) (NSString * __nullable msgStr);
  success    : 成功block
  failure    : 失败block
  */
-- (void)shareWithType:(ZYAuthManagerType)type shareModel:(ZYShareModel *)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
+-(void)shareWithModel:(ZYShareModel *)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
+
+/** 带依附vc的 */
+-(void)shareWithModel:(ZYShareModel *)shareModel viewController:(UIViewController *__nullable)viewController success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
+
 
 /** 检测APP是否安装 */
 - (BOOL)checkAppInstalled;

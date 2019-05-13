@@ -9,10 +9,6 @@
 #import "FacebookAuthManager.h"
 #import "FacebookAuthManager+Login.h"
 
-@interface FacebookAuthManager()
-
-@end
-
 @implementation FacebookAuthManager
 
 
@@ -25,6 +21,8 @@
 
 /** openURL */
 -(BOOL)openURLWithApplication:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    
+    
     return [[FBSDKApplicationDelegate sharedInstance] application:application
                                                           openURL:url
                                                 sourceApplication:sourceApplication
@@ -35,6 +33,27 @@
 - (BOOL)openURLWithApplication:(UIApplication *)application handleOpenURL:(NSURL *)url{
     return YES;
 }
+
+
+#pragma mark - Facebook delegate
+
+- (void)sharer:(id<FBSDKSharing>)sharer didCompleteWithResults:(NSDictionary *)results{
+    if (!sharer.shouldFailOnDataError) {
+        if(self.shareSuccessBlock) self.shareSuccessBlock([NSString stringWithFormat:@"%@", sharer.shareContent.shareUUID]);
+    }
+}
+
+- (void)sharer:(id<FBSDKSharing>)sharer didFailWithError:(NSError *)error{
+    if (sharer.shouldFailOnDataError) {
+        if(self.failureBlock) self.failureBlock(error.localizedDescription, error);
+    }
+}
+
+- (void)sharerDidCancel:(id<FBSDKSharing>)sharer{
+    if(self.failureBlock) self.failureBlock(@"取消分享", nil);
+}
+
+
 
 
 @end

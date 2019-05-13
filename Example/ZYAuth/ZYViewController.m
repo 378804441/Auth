@@ -10,7 +10,6 @@
 #import "ZYAuthManager.h"
 #import "ZYShareModel.h"
 
-
 @interface ZYViewController ()
 
 @end
@@ -89,33 +88,35 @@
 
 -(void)authLogin:(UIButton *)btn{
     
-    ZYShareModel *shareModel = [[ZYShareModel alloc] initWithShareScene:ZYShareSceneMinprogram];
-    shareModel.previewImage = [UIImage imageNamed:@"icon_feed_ask"];
-    shareModel.title        = @"你真的会写Podfile吗?";
-    shareModel.describe     = @"666666";
-    shareModel.urlString    = @"https://www.jianshu.com/p/8a0fd6150159";
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"1.mp4" ofType:nil];
+ 
+    ZYShareModel *shareModel = [[ZYShareModel alloc] initWithShareType:ZYShareTypeText];
+    shareModel.previewImage  = [UIImage imageNamed:@"icon_feed_ask"];
+    shareModel.title         = @"你真的会写Podfile吗?";
+    shareModel.describe      = @"666666";
+    shareModel.urlString     = @"https://www.jianshu.com/p/8a0fd6150159";
+    shareModel.facebookVideoPath = path;
+    shareModel.text          = @"你真的会写Podfile吗?";
     
-    shareModel.minProgramUserName = @"gh_729729ad7a36";
-    shareModel.miniProgramType    = ZYMiniProgramTypeRelease;
-    shareModel.miniProgramPath    = @"https://www.jianshu.com/p/8a0fd6150159";
     
-    [[ZYAuthManager shareInstance] shareWithType:btn.tag shareModel:shareModel success:^(NSString * _Nullable msgStr) {
-        
+//    shareModel.minProgramUserName = @"gh_729729ad7a36";
+//    shareModel.miniProgramType    = ZYShareSceneTimeline;
+//    shareModel.miniProgramPath    = @"https://www.jianshu.com/p/8a0fd6150159";
+    
+    [[ZYAuthManager shareInstance] shareWithType:btn.tag shareModel:shareModel viewController:self success:^(NSString * _Nullable msgStr) {
+        NSLog(@"!!!!!!!!!!  %@", msgStr);
     } failure:^(NSString * _Nullable errorMsg, NSError * _Nullable error) {
         NSLog(@"~~~~~~~~~  %@", errorMsg);
     }];
-    
-    
     return;
-    
-    [[ZYAuthManager shareInstance] checkAppSupportApiWithType:btn.tag];
-    
-    return;
-    
-    
-    [[ZYAuthManager shareInstance] checkAppInstalledWithType:btn.tag];
-    
-    return;
+//
+//    [[ZYAuthManager shareInstance] checkAppSupportApiWithType:btn.tag];
+//
+//    return;
+//
+//    [[ZYAuthManager shareInstance] checkAppInstalledWithType:btn.tag];
+//
+//    return;
     
     if (btn.tag == 103) {
         [[ZYAuthManager shareInstance] logOutGoogle];
