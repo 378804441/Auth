@@ -20,7 +20,8 @@ Pod::Spec.new do |s|
       ss.source_files = ['ZYAuth/Classes/ZYAuthManager/Protocol/*.{h,m}',
                          'ZYAuth/Classes/ZYAuthManager/Auth/*.{h,m}',
                          'ZYAuth/Classes/ZYAuthManager/ThreadSafety/*.{h,m}']
-      ss.resource = 'ZYAuth/Classes/ZYAuthManager/Config/ZYSDKConfig.bundle'
+      ss.resource = ['ZYAuth/Classes/ZYAuthManager/Config/ZYSDKConfig.bundle',
+                     'ZYAuth/Classes/ZYAuthManager/Config/ZYShareModel赋值文档.md']
   end
   
   ####### 微信 ######
