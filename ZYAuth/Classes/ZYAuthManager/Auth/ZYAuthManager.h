@@ -65,10 +65,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)logOutGoogle;
 
-- (void)sendLinkWithUrlString:(NSString *)urlString
-                        title:(NSString *)title
-                  description:(NSString *)description
-                        thumb:(UIImage *)thumb;
 
 @end
 

@@ -34,7 +34,7 @@
     [[Twitter sharedInstance] logInWithViewController:viewController completion:^(TWTRSession * _Nullable session, NSError * _Nullable error) {
         if (session) {
             TWTRComposer *composer = [[TWTRComposer alloc] init];
-            [composer setText:shareModel.text];
+            [composer setText:shareModel.title];
             //带图片方法
             if (!IsNull(shareModel.previewImage)) {
                 [composer setImage:shareModel.previewImage];
@@ -59,7 +59,7 @@
     
     if ([[Twitter sharedInstance].sessionStore existingUserSessions].count >0) {
         TWTRComposer *composer = [[TWTRComposer alloc] init];
-        [composer setText:shareModel.text];
+        [composer setText:shareModel.title];
         //带图片方法
         if (!IsNull(shareModel.previewImage)) {
             [composer setImage:shareModel.previewImage];
@@ -76,7 +76,7 @@
         [[Twitter sharedInstance] logInWithViewController:viewController completion:^(TWTRSession * _Nullable session, NSError * _Nullable error) {
             if (session) {
                 TWTRComposer *composer = [[TWTRComposer alloc] init];
-                [composer setText:shareModel.text];
+                [composer setText:shareModel.title];
                 //带图片方法
                 if (!IsNull(shareModel.previewImage)) {
                     [composer setImage:shareModel.previewImage];

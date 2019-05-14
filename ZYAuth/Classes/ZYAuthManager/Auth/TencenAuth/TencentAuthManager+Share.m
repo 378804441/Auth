@@ -19,10 +19,12 @@
     
     if (shareModel.shareScene == ZYShareSceneSession ||
         shareModel.shareScene == ZYShareSceneTimeline) {
-        if (shareModel.shareType == ZYShareTypeLink) {
-            [self sendWithShareModel:shareModel success:success failure:failure];
+        if(shareModel.shareType == ZYShareTypeText){
+            [self sendTextWithShareModel:shareModel success:success failure:failure];
+        }else if (shareModel.shareType == ZYShareTypeLink) {
+            [self sendLinkWithShareModel:shareModel success:success failure:failure];
         }else if(shareModel.shareType == ZYShareTypeImage){
-            [self sendImageWith:shareModel success:success failure:failure];
+            [self sendImageWithShareModel:shareModel success:success failure:failure];
         }else{
             if (failure) failure(@"warning : 分享类型不支持", nil);
         }
@@ -39,8 +41,25 @@
 
 #pragma mark - private method
 
-/** 进行 链接文本 分享 */
-- (void)sendWithShareModel:(ZYShareModel *)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
+/** 文本分享 */
+- (void)sendTextWithShareModel:(ZYShareModel *)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
+    
+    QQApiTextObject *textObj = [QQApiTextObject objectWithText:shareModel.text];
+    textObj.shareDestType    = [self getShareDescType];
+    
+    SendMessageToQQReq *req  = [SendMessageToQQReq reqWithContent:textObj];
+    QQApiSendResultCode sent;
+    if (shareModel.shareScene == ZYShareSceneTimeline) {
+        sent = [QQApiInterface SendReqToQZone:req];
+    }else {
+        sent = [QQApiInterface sendReq:req];
+    }
+    [self handleSendResult:sent success:success failure:failure];
+}
+
+
+/** 链接 分享 */
+- (void)sendLinkWithShareModel:(ZYShareModel *)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
     
     QQApiNewsObject *news = [QQApiNewsObject objectWithURL:[NSURL URLWithString:shareModel.urlString]
                                                      title:[ZYShareUtils cutIfNeededWithText:shareModel.title length:512]
@@ -60,8 +79,8 @@
 }
 
 
-/** 进行图片分享 */
-- (void)sendImageWith:(ZYShareModel *)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
+/** 图片 分享 */
+- (void)sendImageWithShareModel:(ZYShareModel *)shareModel success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
   
     if (IsNull(shareModel.image)) {
         if(failure) failure(@"error : 图片资源不能为空, 请赋值 ZYShareModel : image 字段", nil);

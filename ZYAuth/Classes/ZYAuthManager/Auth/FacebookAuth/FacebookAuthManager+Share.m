@@ -49,7 +49,7 @@
     FBSDKShareLinkContent *content = [[FBSDKShareLinkContent alloc] init];
     content.contentURL =  [NSURL URLWithString:shareModel.urlString];
     //    content.hashtag    = [FBSDKHashtag hashtagWithString:@"#MadeWithHackbook"];  // 话题
-    content.quote      = shareModel.text; // 引文
+    content.quote      = shareModel.title;
     [FBSDKShareDialog showFromViewController:self.rootViewController withContent:content delegate:self];
 }
 

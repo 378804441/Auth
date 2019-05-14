@@ -14,11 +14,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** model 类型 */
 typedef NS_ENUM(NSInteger, ZYShareType){
-    ZYShareTypeLink       = 0,   /** 链接类型 */
-    ZYShareTypeImage      = 1,   /** 图片类型 */
-    ZYShareTypeVideo      = 2,   /** 视频类型 */
-    ZYShareTypeMusic      = 3,   /** 音乐类型 */
-    ZYShareTypeMinprogram = 4    /** 小程序类型 */
+    ZYShareTypeText         = 0,   /** 文本类型 */
+    ZYShareTypeLink         = 1,   /** 链接类型 */
+    ZYShareTypeImage        = 2,   /** 图片类型 */
+    ZYShareTypeVideo        = 3,   /** 视频类型 */
+    ZYShareTypeMusic        = 4,   /** 音乐类型 */
+    ZYShareTypeTextAndImage = 5,   /** 图文类型 */
+    ZYShareTypeMinprogram   = 6    /** 小程序类型 */
 };
 
 /** 授权平台类型 */

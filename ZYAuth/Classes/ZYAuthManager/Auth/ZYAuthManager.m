@@ -56,7 +56,7 @@ static NSString *const TWITTER_KEY  = @"Twitter";
         Class tencentClass       = NSClassFromString(@"TencentOAuth");
         Class googleSigninClass  = NSClassFromString(@"GIDSignIn");
         Class facebookClass      = NSClassFromString(@"FBSDKApplicationDelegate");
-        Class twitterSigninClass = NSClassFromString(@"GIDSignIn");
+        Class twitterSigninClass = NSClassFromString(@"Twitter");
         
         // 读取 key 配置文件
         NSString *dicPath  = [[NSBundle mainBundle] pathForResource:@"ZYSDKConfig.bundle/Keys" ofType:@"plist"];
@@ -275,7 +275,7 @@ static NSString *const TWITTER_KEY  = @"Twitter";
  class : base->basemanager  login->登录模块  share->分享模块
  */
 -(NSString *)mappingKeyWithType:(NSInteger)type{
-    return [NSString stringWithFormat:@"zy_%ld", type];
+    return [NSString stringWithFormat:@"zy_%ld", (long)type];
 }
 
 
