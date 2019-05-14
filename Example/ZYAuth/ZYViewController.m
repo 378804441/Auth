@@ -113,8 +113,8 @@
 //    shareModel.miniProgramType    = ZYShareSceneTimeline;
 //    shareModel.miniProgramPath    = @"https://www.jianshu.com/p/8a0fd6150159";
     
-    [[ZYAuthManager shareInstance] shareWithType:btn.tag shareModel:shareModel viewController:self success:^(NSString * _Nullable msgStr) {
-        NSLog(@"!!!!!!!!!!  %@", msgStr);
+    [[ZYAuthManager shareInstance] shareWithShareModel:shareModel viewController:self success:^(NSString * _Nullable succeMsg) {
+        NSLog(@"!!!!!!!!!!  %@", succeMsg);
     } failure:^(NSString * _Nullable errorMsg, NSError * _Nullable error) {
         NSLog(@"~~~~~~~~~  %@", errorMsg);
     }];

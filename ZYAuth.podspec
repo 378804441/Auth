@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
     
   s.name             = 'ZYAuth'
-  s.version          = '0.2.3.0'
+  s.version          = '0.2.3.1'
   s.summary          = 'A short description of ZYAuth.'
   s.description      = <<-DESC
                        TODO: Add long description of the pod here.
@@ -59,6 +59,10 @@ Pod::Spec.new do |s|
 
   ####### twitter #######
   s.subspec 'TwitterAuth' do |ss|
+#      ss.subspec 'TwitterKit' do |sss|
+#        sss.source_files = ['ZYAuth/Classes/ZYAuthManager/Auth/TwitterAuth/TwitterCore/**/*',
+#                            'ZYAuth/Classes/ZYAuthManager/Auth/TwitterAuth/TwitterKit/**/*']
+#      end
       ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/TwitterAuth/*.{h,m}'
       ss.dependency 'TwitterKit'
   end

@@ -86,12 +86,6 @@ typedef void (^ZYShareSuccessBlock) (NSString * __nullable succeMsg);
 
 
 
-- (void)sendLinkWithUrlString:(NSString *)urlString
-                        title:(NSString *)title
-                  description:(NSString *)description
-                        thumb:(UIImage *)thumb;
-
-
 - (void)logOut;
 
 @end

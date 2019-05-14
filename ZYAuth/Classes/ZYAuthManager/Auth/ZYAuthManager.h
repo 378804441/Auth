@@ -45,16 +45,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  分享
- type       : 登录类型
- shareModel : 分享模型
- success    : 成功block
- failure    : 失败block
+ shareModel     : 分享模型
+ viewController : 依附VC (可为空)
+ success        : 成功block
+ failure        : 失败block
  */
-- (void)shareWithType:(ZYAuthManagerType)type shareModel:(ZYShareModel *)shareModel viewController:(UIViewController * _Nullable)viewController success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
+- (void)shareWithShareModel:(ZYShareModel *)shareModel viewController:(UIViewController * _Nullable)viewController success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure;
 
 
 /** 检测app是否安装 */
 -(BOOL)checkAppInstalledWithType:(ZYAuthManagerType)type;
+
 
 /** 检查要打开的app版本是否支持 openApi */
 -(BOOL)checkAppSupportApiWithType:(ZYAuthManagerType)type;
@@ -63,7 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - test code
 
 -(void)logOutGoogle;
-
 
 - (void)sendLinkWithUrlString:(NSString *)urlString
                         title:(NSString *)title

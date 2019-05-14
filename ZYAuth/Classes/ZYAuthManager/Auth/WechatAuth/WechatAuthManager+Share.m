@@ -81,10 +81,10 @@
     }
     
     WXImageObject *ext = [WXImageObject object];
-    ext.imageData      = [ZYShareUtils imageDataWithImageData:shareModel.image];
+    ext.imageData      = [ZYShareUtils imageDataWithImageData:UIImageJPEGRepresentation(shareModel.image, 0.5)];
     
     WXMediaMessage *message = [WXMediaMessage message];
-    message.thumbData       = [ZYShareUtils thumbDataWithImageData:shareModel.image];
+    message.thumbData       = [ZYShareUtils thumbDataWithImageData:UIImageJPEGRepresentation(shareModel.image, 0.5)];
     message.mediaObject     = ext;
     
     SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];

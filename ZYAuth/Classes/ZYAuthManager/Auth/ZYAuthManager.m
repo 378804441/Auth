@@ -190,12 +190,12 @@ static NSString *const TWITTER_KEY  = @"Twitter";
 
 /**
  分享
- type       : 登录类型
- shareModel : 分享模型
- success    : 成功block
- failure    : 失败block
+ shareModel     : 分享模型
+ viewController : 依附VC (可为空)
+ success        : 成功block
+ failure        : 失败block
  */
-- (void)shareWithType:(ZYAuthManagerType)type shareModel:(ZYShareModel *)shareModel viewController:(UIViewController * _Nullable)viewController success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
+- (void)shareWithShareModel:(ZYShareModel *)shareModel viewController:(UIViewController * _Nullable)viewController success:(ZYShareSuccessBlock)success failure:(ZYAuthFailureBlock)failure{
    
     if (IsNull(shareModel)) {
         if(failure) failure(@"error : 分享model不能为空 (请初始化一个 ZYShareModel 对象扔进来)", nil);
@@ -206,10 +206,10 @@ static NSString *const TWITTER_KEY  = @"Twitter";
         return;
     }
     
-    if (![self checkLoginObjcWithType:type failure:failure]) return;
+    if (![self checkLoginObjcWithType:shareModel.authType failure:failure]) return;
     
     // 初始化完成的SDK Manager对象
-    id <ZYAuthProtocol>sdkManagerObjc = [self.objcDic objectForKey:[self mappingKeyWithType:type]];
+    id <ZYAuthProtocol>sdkManagerObjc = [self.objcDic objectForKey:[self mappingKeyWithType:shareModel.authType]];
     
     if (IsNull(viewController)) {
         [sdkManagerObjc shareWithModel:shareModel success:success failure:failure];
@@ -255,24 +255,11 @@ static NSString *const TWITTER_KEY  = @"Twitter";
     return [sdkManagerObjc checkAppSupportApi];
 }
 
-- (void)sendLinkWithUrlString:(NSString *)urlString
-                        title:(NSString *)title
-                  description:(NSString *)description
-                        thumb:(UIImage *)thumb{
-    if (![self checkLoginObjcWithType:0 failure:nil]) {
-        NSLog(@"error : 索要的类型并没有初始化成功");
-    }
-    
-    // 初始化完成的SDK Manager对象
-    id <ZYAuthProtocol>sdkManagerObjc = [self.objcDic objectForKey:[self mappingKeyWithType:0]];
-    [sdkManagerObjc sendLinkWithUrlString:urlString title:title description:description thumb:thumb];
-}
-
 
 #pragma mark - private method
 
 /** 检查登录类型对象 是否初始化成功 */
--(BOOL)checkLoginObjcWithType:(ZYAuthManagerType)type failure:(ZYAuthFailureBlock)failure{
+-(BOOL)checkLoginObjcWithType:(NSInteger)type failure:(ZYAuthFailureBlock)failure{
     
     if ([self.objcDic objectForKey:[self mappingKeyWithType:type]]) {
         return YES;
@@ -287,7 +274,7 @@ static NSString *const TWITTER_KEY  = @"Twitter";
  type  : 类型
  class : base->basemanager  login->登录模块  share->分享模块
  */
--(NSString *)mappingKeyWithType:(ZYAuthManagerType)type{
+-(NSString *)mappingKeyWithType:(NSInteger)type{
     return [NSString stringWithFormat:@"zy_%ld", type];
 }
 
