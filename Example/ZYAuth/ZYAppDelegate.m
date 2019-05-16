@@ -20,6 +20,12 @@
     return YES;
 }
 
+
+-(BOOL)application:(UIApplication *)app openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(nonnull id)annotation{
+
+    return YES;
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application{
 }
 

@@ -25,6 +25,8 @@ for (Class cla in ZYModuleClass) { \
     } \
 
 static NSMutableSet<Class> * ZYModuleClass;
+static BOOL                  ZYIsOneLook;  // openURL 防抖动
+
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -35,12 +37,14 @@ static NSMutableSet<Class> * ZYModuleClass;
 
 BOOL ZY_Appdelegate_method_return(id _self_, SEL _cmd_, id _application_, id _args1_, id _args2_, id _args3_) {
     BOOL returnValue = NO;
-    SEL ty_selector = NSSelectorFromString([NSString stringWithFormat:@"hook_%@", NSStringFromSelector(_cmd_)]);
-    Method m = class_getClassMethod([ZYAppdelegateHook class], ty_selector);
+    SEL hook_selector = NSSelectorFromString([NSString stringWithFormat:@"hook_%@", NSStringFromSelector(_cmd_)]);
+
+    Method m = class_getClassMethod([ZYAppdelegateHook class], hook_selector);
     IMP method = method_getImplementation(m);
+    
     if (![NSStringFromSelector(_cmd_) hasPrefix:@"hook_"]) {
         BOOL (* callMethod)(id,SEL,id,id,id,id) = (void *)method;
-        returnValue = callMethod(_self_,ty_selector,_application_,_args1_,_args2_,_args3_);
+        returnValue = callMethod(_self_,hook_selector,_application_,_args1_,_args2_,_args3_);
     }
     ZY_APPDELEGATE_CALL_ORTHER(_cmd_, _application_, _args1_, _args2_, _args3_)
     return returnValue;
@@ -49,7 +53,9 @@ BOOL ZY_Appdelegate_method_return(id _self_, SEL _cmd_, id _application_, id _ar
 
 /** hook 方法 */
 void Swizzle(Class class, SEL originalSelector, Method swizzledMethod){
+    
     Method originalMethod = class_getInstanceMethod(class, originalSelector);
+    
     SEL swizzledSelector = method_getName(swizzledMethod);
     
     BOOL didAddMethod =
@@ -68,12 +74,26 @@ void Swizzle(Class class, SEL originalSelector, Method swizzledMethod){
     }
 }
 
+
+
 @implementation UIApplication (DCX)
 
 - (void)hook_setDelegate:(id <UIApplicationDelegate>)delegate {
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        
+        // 检查appdelegate 是否实现了 OpenURL 方法，如果没有的话 将会动态添加方法
+        SEL openUrlSEL = @selector(application:openURL:sourceApplication:annotation:);
+        if (![[UIApplication sharedApplication] respondsToSelector:openUrlSEL]) {
+            SEL newSEL = @selector(insert_application:openURL:sourceApplication:annotation:);
+            Method orginReplaceMethod = class_getClassMethod([ZYAppdelegateHook class], newSEL);
+            BOOL didAddOriginMethod   = class_addMethod([delegate class], openUrlSEL, method_getImplementation(orginReplaceMethod), method_getTypeEncoding(orginReplaceMethod));
+            if (didAddOriginMethod) {
+                NSLog(@"appdelegate 里面没有实现 openURL 方法，动态添加");
+            }
+        }
+        
         SWIZZLE_DELEGATE_METHOD(application:handleOpenURL:)
         SWIZZLE_DELEGATE_METHOD(application:openURL:sourceApplication:annotation:)
     });
@@ -82,14 +102,18 @@ void Swizzle(Class class, SEL originalSelector, Method swizzledMethod){
 
 @end
 
+
+
 @implementation ZYAppdelegateHook
 
 + (void)load{
+    ZYIsOneLook = NO;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         Swizzle([UIApplication class], @selector(setDelegate:), class_getInstanceMethod([UIApplication class], @selector(hook_setDelegate:)));
     });
 }
+
 
 + (void)registerAppDelegateClass:(nonnull Class)cla {
     static dispatch_once_t onceToken;
@@ -100,15 +124,20 @@ void Swizzle(Class class, SEL originalSelector, Method swizzledMethod){
 }
 
 
-#pragma mark - private method
-
 + (BOOL)hook_application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation  {
+    NSLog(@"~~~~~~~~~   %@", NSStringFromSelector(_cmd));
+    
     BOOL openURL = NO;
-    // 1) 插入auth openURL授权
     openURL = [[ZYAuthManager shareInstance] openURLWithApplication:application openURL:url sourceApplication:sourceApplication annotation:annotation];
-    // 2) 调用原有方法
+    
     openURL = ZY_Appdelegate_method_return(self,_cmd,application,url,sourceApplication,annotation);
+    
     return openURL;
+}
+
+
++ (void)insert_application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation  {
+    NSLog(@"1111111111111   %@", NSStringFromSelector(_cmd));
 }
 
 
@@ -120,6 +149,8 @@ void Swizzle(Class class, SEL originalSelector, Method swizzledMethod){
     openURL = ZY_Appdelegate_method_return(self,_cmd,application,url,nil,nil);
     return openURL;
 }
+
+
 
 
 @end

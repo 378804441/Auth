@@ -59,10 +59,6 @@ Pod::Spec.new do |s|
 
   ####### twitter #######
   s.subspec 'TwitterAuth' do |ss|
-#      ss.subspec 'TwitterKit' do |sss|
-#        sss.source_files = ['ZYAuth/Classes/ZYAuthManager/Auth/TwitterAuth/TwitterCore/**/*',
-#                            'ZYAuth/Classes/ZYAuthManager/Auth/TwitterAuth/TwitterKit/**/*']
-#      end
       ss.source_files = 'ZYAuth/Classes/ZYAuthManager/Auth/TwitterAuth/*.{h,m}'
       ss.dependency 'TwitterKit'
   end

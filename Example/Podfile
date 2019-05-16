@@ -4,7 +4,7 @@ platform :ios, '8.0'
 
 target 'ZYAuth_Example' do
   pod 'ZYAuth', :path => '../'
-
+  
   target 'ZYAuth_Tests' do
     inherit! :search_paths
 
