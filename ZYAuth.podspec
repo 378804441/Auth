@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
     
   s.name             = 'ZYAuth'
-  s.version          = '0.2.3.1'
+  s.version          = '1.0.0'
   s.summary          = 'A short description of ZYAuth.'
   s.description      = <<-DESC
                        TODO: Add long description of the pod here.
