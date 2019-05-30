@@ -27,8 +27,8 @@
     *   WhatsappAuth   - whatsapp
 
 ##### 示例
-* 列入想导入 微信, 微博
-    * pod 'ZYAuth', subspecs:['AuthCore', 'WechatAuth'], :git => "https://github.com/378804441/Auth.git"
+* 例如，想导入 微信, 微博
+    * pod 'ZYAuth', subspecs:['AuthCore', 'WechatAuth', 'SinaAuth'], :git => "https://github.com/378804441/Auth.git"
 
 
 
