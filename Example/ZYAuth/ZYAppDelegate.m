@@ -7,22 +7,14 @@
 //
 
 #import "ZYAppDelegate.h"
-#import "ZYAuthManager.h"
-#import <WechatOpenSDK/WXApi.h>
 
-@interface ZYAppDelegate()<WXApiDelegate>
+@interface ZYAppDelegate()
 
 @end
 
 @implementation ZYAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-    return YES;
-}
-
-
--(BOOL)application:(UIApplication *)app openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(nonnull id)annotation{
-
     return YES;
 }
 

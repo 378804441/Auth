@@ -78,6 +78,7 @@ void Swizzle(Class class, SEL originalSelector, Method swizzledMethod){
 
 @implementation UIApplication (DCX)
 
+
 - (void)hook_setDelegate:(id <UIApplicationDelegate>)delegate {
     
     static dispatch_once_t onceToken;
@@ -125,7 +126,7 @@ void Swizzle(Class class, SEL originalSelector, Method swizzledMethod){
 
 
 + (BOOL)hook_application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation  {
-    NSLog(@"~~~~~~~~~   %@", NSStringFromSelector(_cmd));
+    NSLog(@"Log :  %@", NSStringFromSelector(_cmd));
     
     BOOL openURL = NO;
     openURL = [[ZYAuthManager shareInstance] openURLWithApplication:application openURL:url sourceApplication:sourceApplication annotation:annotation];
@@ -137,7 +138,7 @@ void Swizzle(Class class, SEL originalSelector, Method swizzledMethod){
 
 
 + (void)insert_application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation  {
-    NSLog(@"1111111111111   %@", NSStringFromSelector(_cmd));
+    NSLog(@"Log : %@", NSStringFromSelector(_cmd));
 }
 
 
@@ -149,7 +150,6 @@ void Swizzle(Class class, SEL originalSelector, Method swizzledMethod){
     openURL = ZY_Appdelegate_method_return(self,_cmd,application,url,nil,nil);
     return openURL;
 }
-
 
 
 

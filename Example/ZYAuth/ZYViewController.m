@@ -98,45 +98,6 @@
 
 -(void)authLogin:(UIButton *)btn{
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"1.mp4" ofType:nil];
-    
-    ZYShareModel *shareModel = [[ZYShareModel alloc] initWithShareType:ZYShareTypeLink authType:btn.tag];
-    shareModel.image         = [UIImage imageNamed:@"icon_feed_ask"];
-    shareModel.text          = @"哈哈哈哈哈哈啊哈";
-    shareModel.title         = @"用最廉价的衣服让土鳖朋友混进伦敦时装周";
-    shareModel.describe      = @"666666";
-    shareModel.urlString     = @"https://h5test.izuiyou.com/detail/114920948?zy_to=qq&share_count=1&m=b4f131a9db91358f83fcfbe42f0d34e2&app=zuiyou";
-//    shareModel.facebookVideoPath = path;
-//    shareModel.minProgramUserName = @"gh_729729ad7a36";
-//    shareModel.miniProgramType    = ZYShareSceneTimeline;
-//    shareModel.miniProgramPath    = @"https://www.jianshu.com/p/8a0fd6150159";
-    
-//    [[ZYAuthManager shareInstance] shareWithShareModel:shareModel viewController:self success:^(NSString * _Nullable succeMsg) {
-//        NSLog(@"!!!!!!!!!!  %@", succeMsg);
-//    } failure:^(NSString * _Nullable errorMsg, NSError * _Nullable error) {
-//        NSLog(@"~~~~~~~~~  %@", errorMsg);
-//    }];
-//    
-//    return;
-//
-//    [[ZYAuthManager shareInstance] checkAppSupportApiWithType:btn.tag];
-//
-//    return;
-//
-//    [[ZYAuthManager shareInstance] checkAppInstalledWithType:btn.tag];
-//
-//    return;
-    
-    if (btn.tag == 103) {
-        [[ZYAuthManager shareInstance] logOutGoogle];
-        return;
-    }
-    
-    [[ZYAuthManager shareInstance] authLoginWithType:btn.tag viewController:self success:^(NSDictionary * _Nullable dataDic) {
-        NSLog(@"!!!!!!!!!  %@", dataDic);
-    } failure:^(NSString * _Nullable errorMsg, NSError * _Nullable error) {
-        NSLog(@"~~~~~~~~~  %@", errorMsg);
-    }];
     
 }
 
