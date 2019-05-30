@@ -11,23 +11,24 @@
 
 #### 全部导入 (目前支持 `微信/QQ/微博 Facebook/twitter/google/WhatsApp`)
 * 示例
-    * pod 'XCSocial', :git => "https://git.ixiaochuan.cn/xcpod/XCSocial.git"
+    * pod 'ZYAuth', :git => "https://github.com/378804441/Auth.git"
 
 
 
 #### 指定模块导入 
 * 各个模块名称
-    *   SocialCore    - 核心模块  ==必导==
-    *   WechatSocial  - 微信
-    *   TencenSocial  - QQ
-    *   SinaSocial    - 微博
-    *   GoogleSocial   - google
-    *   FacebookSocial - facebook
-    *   TwitterSocial  - twitter
-    *   WhatsappSocial - whatsapp
+    *   AuthCore         - 核心模块  ==必导==
+    *   WechatAuth     - 微信
+    *   TencenAuth     - QQ
+    *   SinaAuth       - 微博
+    *   GoogleAuth     - google
+    *   FacebookAuth   - facebook
+    *   TwitterAuth    - twitter
+    *   WhatsappAuth   - whatsapp
+
 ##### 示例
 * 列入想导入 微信, 微博
-    * pod 'XCSocial', subspecs:['SocialCore', 'WechatSocial'], :git => "https://git.ixiaochuan.cn/xcpod/XCSocial.git"
+    * pod 'ZYAuth', subspecs:['AuthCore', 'WechatAuth'], :git => "https://github.com/378804441/Auth.git"
 
 
 
@@ -55,9 +56,9 @@
     
     
 "分享"
-* 初始化分享model (XCSocialShareModel)  注 : XCSocialShareModel 各平台所需赋值字段请参考 XCSocialShareModel
+* 初始化分享model (ZYShareModel)  注 : 各平台所需赋值字段请参考 ZYShareModel文档
 
-[[XCSocialManager shareInstance] shareWithShareModel:@"分享模型(XCSocialShareModel)" viewController:@"模态所需要依附VC" success:^(NSString * _Nullable succeMsg) {
+[[XCSocialManager shareInstance] shareWithShareModel:@"分享模型(ZYShareModel)" viewController:@"模态所需要依附VC" success:^(NSString * _Nullable succeMsg) {
         NSLog(@"分享成功  %@", succeMsg);
 } failure:^(NSString * _Nullable errorMsg, NSError * _Nullable error) {
         NSLog(@"分享失败信息  error : %@", errorMsg);
@@ -68,7 +69,7 @@
 
 
 
-# 分享model构建 (XCSocialShareModel)
+# 分享model构建 (ZYShareModel)
 
 ## 微信 ##
 
