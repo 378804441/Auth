@@ -33,17 +33,7 @@
 
 
 #### 使用方法
-* 重写AppDelegate的handleOpenURL和openURL方法：
 
-```javascript
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {   
-    return [[ZYAuthManager shareInstance] openURLWithApplication:application handleOpenURL:url];
-}
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [[ZYAuthManager shareInstance] openURLWithApplication:application openURL:url sourceApplication:sourceApplication annotation:annotation];
-}
-```
 * 使用代码：
 
 ```javascript
